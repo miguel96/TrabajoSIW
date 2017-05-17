@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>##titulo##</title>
+</head>
+<script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="busquedas.js"></script>
+<body>
+    ##cabecera##
+    <form action="controlador.php?accion=compruebaregistro" method="post" accept-charset="utf-8">
+        <p>Email</p>
+        <input type="text" name="usuario" />
+        <p>Contrase&ntildea</p>
+        <input type="password" name="contrasena" />
+		<p>Vuelva a escribir la contrase&ntildea</p>
+        <input type="password" name="contrasena1" />
+		<p>Nombre completo</p>
+        <input type="text" name="nombre" />
+		<p>Direcci&oacuten</p>
+        <input type="text" name="direccion" />
+        <p>C&oacutedigo Postal</p>
+        <input type="text" name="codpos"  />
+    <p>Sexo</p>
+    <select name="sexo" >
+			<option value="1">Hombre</option>
+			<option value="2">Mujer</option>
+		</select>
+    <br><br>
+    <div id="capacomunidades"></div>
+    <br>
+  	<div id="capaprovincias"></div>
+    <br>
+    <div id="capapoblaciones"></div>
+        <br> <br>
+        <input type="submit" value="Entrar">
+    </form>
+	##footer##
+</body>
+</html>

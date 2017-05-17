@@ -1,0 +1,11 @@
+18-04
+He cambiado la base de datos, he borrado la tabla productos-reviews porque cada review solo es de un producto y le he metido el campo idProducto
+He metido a review el campo fecha que si no no las podemos ordenar por fecha jajajaja.
+He hecho producto, misValoraciones y misPedidos a misValoraciones y misPedidoshay que ponerle en el modelo un orderBy fecha que ahora no me apetece.
+He cambiado el tipo fecha de pedido a timeStamp que es mucho más comodo que date.
+Para los estados he definido 1 como procesado y 2 como enviado.
+Hay que hacer los links de añadir al carrito, abrir al detalle un pedido y una review. Creo que lo mejor es dejar el la plantilla un ##loquesea## y sustituirlos en el php.
+26-04
+Hay que repasar los valores por defecto de id y accion del controlador.
+Falta mirar Dropzone y juntar los dos códigos y las BBDD.
+Hay que acabar la accion pagarya en el controlador.
