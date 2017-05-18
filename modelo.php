@@ -12,7 +12,7 @@ function mmostrarproducto(){
       die("Conexion fallida:" .$mysqli->connect_error.".\n");
     }
     //Preparamos la consulta
-    if (!($sentencia = $mysqli->prepare('Select p.IdProducto,p.Nombre,p.Precio,p.Descripcion,p.Stock,pi.Imagen FROM producto p productosimagenes pi WHERE p.IdProducto=? and pi.Idproducto=p.idProducto '))){
+    if (!($sentencia = $mysqli->prepare('Select p.IdProducto,p.Nombre,p.Precio,p.Descripcion,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.IdProducto=? and pi.Idproducto=p.idProducto'))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
     if (!$sentencia->bind_param("i",$id)) {

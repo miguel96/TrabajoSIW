@@ -31,6 +31,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
   $cadena = str_replace("##precio##", $listadoproducto["Precio"], $cadena);
   $cadena = str_replace("##descripcion##", $listadoproducto["Descripcion"], $cadena);
   $cadena = str_replace("##cantidad##", $listadoproducto["Stock"], $cadena);
+  $cadena = str_replace("##imagen##","<img src=".$listadoproducto["Imagen"].">",$cadena);
   //Bucle para montar los comentarios
   $comentarios="";
   $trozoscomentarios = explode("##comentario##", $cadena);
