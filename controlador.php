@@ -159,7 +159,7 @@
 			break;
 				break;
 			default:
-				vmostrarlistadoproductos(mcontarproductos(),mlistadoproductos());
+				vmostrarlistadoproductos(mlistadoproductos());
 				break;
 		}
 		function cislogged(){

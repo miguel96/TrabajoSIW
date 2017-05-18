@@ -3,19 +3,20 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="principal.css">
+    <link rel="stylesheet" href="estilos.css">
     <title>##Titulo##</title>
 </head>
 <body>
     ##cabecera##
     <h1>Productos Destacados:</h1>
-    <form action="controlador.php" method="post">
+    <!--<form action="controlador.php" method="post">-->
+    <div class="principal_galeria">
     <table>
 
         <tr>
             ##productos##
             <td>
-                <a id="foto" href="##linkProducto##"><img src=##foto##/></a>
+                <a id="foto" href="##linkProducto##"><img src="##foto##"/></a>
                 <a id="nombre" href="##linkProducto##"><p>##nombre##</p></a>
                 <p>##precio##</p>
             </td>
@@ -23,6 +24,7 @@
         </tr>
 
     </table>
+  </div>
     ##footer##
 
 </body>

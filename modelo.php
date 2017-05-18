@@ -12,7 +12,7 @@ function mmostrarproducto(){
       die("Conexion fallida:" .$mysqli->connect_error.".\n");
     }
     //Preparamos la consulta
-    if (!($sentencia = $mysqli->prepare('Select IdProducto,Nombre,Precio,Descripcion,Stock FROM producto  WHERE IdProducto=?'))){
+    if (!($sentencia = $mysqli->prepare('Select p.IdProducto,p.Nombre,p.Precio,p.Descripcion,p.Stock,pi.Imagen FROM producto p productosimagenes pi WHERE p.IdProducto=? and pi.Idproducto=p.idProducto '))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
     if (!$sentencia->bind_param("i",$id)) {
@@ -21,7 +21,7 @@ function mmostrarproducto(){
     if (!$sentencia->execute()) {
     echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
     }
-    if(!$sentencia->bind_result($resultado["IdProducto"],$resultado["Nombre"],$resultado["Precio"],$resultado["Descripcion"],$resultado["Stock"])){
+    if(!$sentencia->bind_result($resultado["IdProducto"],$resultado["Nombre"],$resultado["Precio"],$resultado["Descripcion"],$resultado["Stock"],$resultado["Imagen"])){
       echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
     }
     $sentencia->fetch();
@@ -113,7 +113,7 @@ function mmostrarpedidosusuario($id){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND p.idUsuario=? GROUP BY fecha,estado ORDER BY fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND p.idUsuario=? GROUP BY fecha,estado,p.idPedido ORDER BY fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->bind_param("i",$id)) {
@@ -178,27 +178,6 @@ function mmostrarpedido(){
   mysqli_close($mysqli);
   return $resultados;
 }
-	function mcontarproductos(){
-    $servidor="127.0.0.1";
-    $usuario="siw06";
-    $password="asahwaeche";
-    $dbname="db_siw06";
-		$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
-		if(!$mysqli){
-            die("Conexion fallida:" .mysqli_connect_error);
-		}
-		$resultado = mysqli_query($mysqli, "select count(IdProducto) contar from producto");
-		if (!$resultado) {
-            echo "Error de BD, no se pudo consultar la base de datos\n";
-
-            exit;
-        }
-		while ($fila = mysqli_fetch_assoc($resultado)) {
-	   		$contar = $fila['contar'];
-        }
-    mysqli_close($mysqli);
-		return $contar;
-	}
 
 function mgetUsuario($email){
   $servidor="127.0.0.1";
@@ -349,7 +328,7 @@ function mmostrarproductospedidoid($id){
 		if(!$mysqli){
             die("Conexion fallida:" .mysqli_connect_error);
 		}
-		$resultado = mysqli_query($mysqli, "select nombre,precio,idProducto from producto");
+		$resultado = mysqli_query($mysqli, "select p.nombre,p.precio,p.idProducto, pi.Imagen from producto p, productosimagenes pi where p.idProducto=pi.idProducto");
         	if (!$resultado) {
             	echo "Error de BD, no se pudo consultar la base de datos\n";
 

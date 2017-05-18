@@ -15,11 +15,9 @@
 		$i=0;
 		if ($resultado = $con->query($consulta)) {
 			while ($datos = $resultado->fetch_assoc()) {
-				//TODO cambiar codificacion, ahora mismo fallan ñs y acentos
 				$resultados[$i]["id"]= $datos["id"];
 				$resultados[$i]["comunidad"]=utf8_encode($datos["comunidad"]);
 				$i+=1;
-		//			$resultados[$i]["comunidad"]=$datos["comunidad"];
 			}
 		} else {
 			echo -2;

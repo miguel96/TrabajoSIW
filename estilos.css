@@ -1,0 +1,58 @@
+h1{
+  color:#585858;
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+}
+body{
+  border: #E6E6E6 40px solid;
+  padding: 10px;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+
+}
+#imagenCabecera{
+  margin:auto;
+}
+table{
+ margin-left: auto;
+ margin-right: auto;
+ vertical-align: middle;
+ align-self: auto;
+ padding: 15px;
+ margin: auto;
+}
+#principal_galeria{
+  margin:auto;
+}
+ul.menu {
+  background: #F4F4F4;
+  border: 1px solid #7C7C7C;
+  list-style: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+}
+ul.menu li {
+  align-content: center;
+  float: left;
+  width: 20%;
+  text-align: center;
+}
+ul.menu li a {
+  border-left: 1px solid #FFF;
+  border-right: 1px solid #7C7C7C;
+  color: #333;
+  display: block;
+  padding: .3em;
+  text-decoration: none;
+}
+ul.menu li:hover{
+  background: white;
+}
+ul.menu li:active{
+  border: 1px dashed #7C7C7C;
+
+}

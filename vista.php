@@ -6,7 +6,7 @@ function cabecera($cadena){
   $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
   $cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
   $cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Mis valoraciones</a>",$cabecera);
-  $cabecera=str_replace("##carrito##","<a href='controlador.php?accion=pedido'><img src='imagenes/carrotxiki'/></a>",$cabecera);
+  $cabecera=str_replace("##carrito##","<a href='controlador.php?accion=pedido'>Carrito</a>",$cabecera);
   if (cislogged()){
     $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
   }
@@ -143,20 +143,20 @@ function vpagarpaypal($precio){
   return $cadena;
 }
 //Codigo de ruben
-  function vmostrarlistadoproductos($contar,$consulta){
+  function vmostrarlistadoproductos($consulta){
 		$cadena = file_get_contents("principal.html");
     $cadena = str_replace("##Titulo##","Rufocube",$cadena);
     $cadena = cabecera($cadena);
 		$trozos = explode("##productos##", $cadena);
-
 		$cuerpo = "";
 		while($fila = mysqli_fetch_assoc($consulta)){
 			$aux = $trozos[1];
       $nombre = $fila['nombre'];
       $precio = $fila['precio'];
       $idProducto=$fila['idProducto'];
+      $imagen=$fila['Imagen'];
       $aux = str_replace("##linkProducto##","controlador.php?accion=producto&id=".$idProducto,$aux);
-			$aux = str_replace("##foto##", "'imagenes/chrome.png'", $aux);
+			$aux = str_replace("##foto##", "$imagen", $aux);
 			$aux = str_replace("##nombre##", "$nombre", $aux);
 			$aux = str_replace("##precio##", "$precio &#8364", $aux);
 			$cuerpo .= $aux;

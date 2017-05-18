@@ -18,7 +18,6 @@ header("Content-Type: text/html; charset=iso-8859-1");
 		$i=0;
 		if ($resultado = $con->query($consulta)) {
 			while ($datos = $resultado->fetch_assoc()) {
-				//TODO cambiar codificacion, ahora mismo fallan ñs y acentos
 				$resultados[$i]["id"]= $datos["id"];
 				$resultados[$i]["poblacion"]=utf8_encode($datos["municipio"]);
 				$i+=1;
