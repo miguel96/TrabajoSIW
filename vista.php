@@ -2,7 +2,6 @@
 //TODO Hay que cambiar los titulos en casi todas las vistas
 function cabecera($cadena){
   header("Content-Type: text/html; charset=iso-8859-1");
-  //TODO Hay que hacer la cabecera
   $cabecera=file_get_contents("cabecera.html");
   $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
   $cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
@@ -56,7 +55,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
 function vmostrarmisvaloraciones($listadoreviews){
   $cadena = file_get_contents("misvaloraciones.html");
   $cadena = cabecera($cadena);
-  $cadena = str_replace("##titulo##", "Listado de valoraciones", $cadena);
+  $cadena = str_replace("##titulo##", "Rufocube-Listado de valoraciones", $cadena);
   //Bucle para montar los comentarios
   $comentarios="";
   $trozoscomentarios = explode("##comentario##", $cadena);
@@ -74,7 +73,7 @@ function vmostrarmisvaloraciones($listadoreviews){
 function vmostrarmispedidos($listadopedidos){
   $cadena = file_get_contents("mispedidos.html");
   $cadena = cabecera($cadena);
-  $cadena = str_replace("##titulo##", "Listado de pedidos", $cadena);
+  $cadena = str_replace("##titulo##", "Rufocube-Listado de pedidos", $cadena);
   //Bucle para montar los comentarios
   $pedidos="";
   $trozospedidos = explode("##pedido##", $cadena);
@@ -103,7 +102,7 @@ function vmostrarmispedidos($listadopedidos){
 function vmostrarpedido($listadoproductos){
   $cadena = file_get_contents("pedido.html");
   $cadena = cabecera($cadena);
-  $cadena = str_replace("##titulo##", "Tu carrito", $cadena);
+  $cadena = str_replace("##titulo##", "Rufocube-  Tu carrito", $cadena);
   //Bucle para montar los comentarios
   $productos="";
   $trozosproductos = explode("##producto##", $cadena);
@@ -123,7 +122,6 @@ function vmostrarpedido($listadoproductos){
   echo $cadena;
 }
 function vpedidotoPDF($listadoproductos){
-  //TODO Preparar el pdf con los datos del pedido y hacer que se muestre en una ventana nueva.
   require('pdfFac.php');
   if($listadoproductos!=""){
       $precioTotal=0;
@@ -147,8 +145,8 @@ function vpagarpaypal($precio){
 //Codigo de ruben
   function vmostrarlistadoproductos($contar,$consulta){
 		$cadena = file_get_contents("principal.html");
+    $cadena = str_replace("##Titulo##","Rufocube",$cadena);
     $cadena = cabecera($cadena);
-    $cadena = footer($cadena);
 		$trozos = explode("##productos##", $cadena);
 
 		$cuerpo = "";
@@ -169,15 +167,14 @@ function vpagarpaypal($precio){
 	function vmostrarlogin(){
 		$cadena = file_get_contents("login.html");
     $cadena = cabecera($cadena);
+    $cadena=str_replace("##titulo##","Rufocube-Login",$cadena);
 		echo str_replace("##cabecera##", file_get_contents("cabecera.html"),$cadena);
-
 	}
 
 	function vmostrarregistro(){
 		$cadena = file_get_contents("registro.html");
 		$cadena = cabecera($cadena);
-		$cadena = footer($cadena);
+    $cadena=str_replace("##titulo##","Rufocube-Registro",$cadena);
 		echo $cadena;
-
 	}
 ?>

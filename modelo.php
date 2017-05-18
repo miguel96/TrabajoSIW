@@ -360,35 +360,78 @@ function mmostrarproductospedidoid($id){
 
 	}
 
-	function mcomprobarregistro($email,$contrasena,$contrasena1,$nombre,$apellidos,$direccion,$comunidad,$provincia,$localidad,$codpos,$sexo){
-
-            if($email==null or $contrasena==null or $contrasena1==null or $nombre==null or $apellidos==null or $direccion==null or $comunidad==null or $provincia==null or $localidad==null or $codpos==null or $sexo==null){
-                vmostrarregistro("Rellene todos los campos del registro.");
-            }
-            else{
-            $servidor="dbserver";
-            $usuario="siw06";
-            $password="asahwaeche";
-            $dbname="db_siw06";
-            $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
-            if(!$mysqli){
-            die("Conexion fallida:" .mysqli_connect_error);
+	function mcomprobarregistro($formulario){
+    //$email,$contrasena,$contrasena1,$nombre,$apellido1,$apellido2,$sexo,$comunidad,$provincia,$poblacion,$direccion,$codpos){
+    foreach($formulario as $campo){
+      if($campo==null){
+        return("Rellene todos los campos del registro.");
+      }
+    }
+    echo $formulario["email"];
+    $servidor="127.0.0.1";
+    $usuario="siw06";
+    $password="asahwaeche";
+    $dbname="db_siw06";
+    $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+    if(!$mysqli){
+      die("Conexion fallida:" .mysqli_connect_error);
 		}
-            $resultado = mysqli_query($mysqli, "select email from usuarios where email='$email'");
-            $fila = mysqli_fetch_assoc($resultado);
-            if (!$resultado) {
-            	echo "Error de BD, no se pudo consultar la base de datos\n";
-            }else if($fila['email'] == $email){
-                    vmostrarregistro("El email ya existe.");
-            }
-            else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                vmostrarregistro("Esta dirección de correo no es válida.");
-            }else if($contrasena!=$contrasena1){
-                vmostrarregistro("Las contraseñas no coinciden.");
-            }
-            }
+    if (!($sentencia = $mysqli->prepare("SELECT idUsuario FROM usuarios WHERE email=?"))){
+      ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+    //Preparamos la consulta
+    if (!$sentencia->bind_param("s",$formulario["email"])) {
+      echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    if (!$sentencia->execute()) {
+      echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    if($sentencia->fetch()){
+        return("El email ya existe.");
+    }
+    else if (!filter_var($formulario["email"], FILTER_VALIDATE_EMAIL)) {
+        return("Esta dirección de correo no es válida.");
+    }else if($formulario["contrasena"]!=$formulario["contrasena1"]){
+        return("Las contraseñas no coinciden.");
+    }
+    else{
+        //TODO insertar al usuario en la BBDD
 
-	}
+        $servidor="127.0.0.1";
+        $usuario="siw06";
+        $password="asahwaeche";
+        $dbname="db_siw06";
+        $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+        if(!$mysqli){
+          die("Conexion fallida:" .mysqli_connect_error);
+    		}
+        //Ahora sacamos la info del pedido
+        if (!($sentencia1 = $mysqli->prepare("INSERT INTO `usuarios`(`idUsuario`, `Nombre`, `apellido1`, `apellido2`, `email`, `password`, `direccion`,
+           `CP`, `Sexo`, `Comunidad`, `Provincia`, `Municipio`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"))){
+          ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+        }
+        $formulario["nombre"]="'".$formulario["nombre"]."'";
+        $formulario["apellido1"]="'".$formulario["apellido1"]."'";
+        $formulario["apellido2"]="'".$formulario["apellido2"]."'";
+        $formulario["email"]="'".$formulario["email"]."'";
+        $formulario["contrasena"]="'".$formulario["contrasena"]."'";
+        $formulario["direccion"]="'".$formulario["direccion"]."'";
+
+        print_r($formulario);
+        //Preparamos la consulta
+        if (!$sentencia1->bind_param("issssssiiiii",$idUsuario=4,$formulario["nombre"],$formulario["apellido1"],$formulario["apellido2"],
+        $formulario["email"],$formulario["contrasena"],$formulario["direccion"],$formulario["codpos"],$formulario["sexo"],$formulario["comunidad"],
+        $formulario["provincia"],$formulario["poblacion"])){
+          echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+        }
+        if (!$sentencia1->execute()) {
+          echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+        }
+        $sentencia->close();
+        mysqli_close($mysqli);
+        return "OK";
+      }
+  }
 	function mcomprobarlogin($user,$contrasena){
     $servidor="127.0.0.1";
     $usuario="siw06";
@@ -414,7 +457,7 @@ function mmostrarproductospedidoid($id){
 		$im = "imagenes/" .rand(0,10000)."_". $nombre;
 		if (move_uploaded_file($img,$im)){
                         imagescale($im,1000,-1,IMG_NEAREST_NEIGHBOUR);
-			$servidor="dbserver";
+			$servidor="127.0.0.1";
 			$usuario="siw06";
 			$password="asahwaeche";
 			$dbname="db_siw06";

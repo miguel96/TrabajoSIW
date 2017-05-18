@@ -55,7 +55,6 @@
 			}
 			break;
 		case "pedido":
-				//print_r(mmostrarpedido());
 				vmostrarpedido(mmostrarpedido());
 				break;
 		case "addCarrito":
@@ -74,17 +73,36 @@
 			header('Location:controlador.php?accion=pedido');
 		  break;
 			case "compruebalogin":
-		    $email=$_POST["Email"];
-				$contrasena=$_POST["contrasena"];
+			if(!isset($_SESSION)){
+				session_start();
+			}
+			if (isset($_POST["Email"])) {
+				$email = $_POST["Email"];
+			} else if (isset($_SESSION["Email"])) {
+					$accion = $_SESSION["Email"];
+				}
+				else {
+					$email="";
+				}
+			if (isset($_POST["contrasena"])) {
+				$contrasena = $_POST["contrasena"];
+			} else if (isset($_SESSION["contrasena"])) {
+					$contrasena = $_SESSION["contrasena"];
+				}
+				else {
+					$contrasena="";
+				}
 				if (mcomprobarlogin($email,$contrasena)){
 						//Iniciamos la Sesion
-						session_start();
+						if(!isset($_SESSION)){
+							session_start();
+						}
 						$_SESSION["Usuario"]=mgetUsuario($email);
 						$_SESSION["Contrasena"]=$contrasena;
 						header('Location:controlador.php');
 
 					}
-				else vmostrarlogin();
+				else header('Location:controlador.php?accion=login');
 			break;
 			case "principal":
 				vmostrarlistadoproductos(mcontarproductos(),mlistadoproductos());
@@ -122,10 +140,22 @@
 				vmostrarregistro();
 				break;
 			case "compruebaregistro":
-			//Comprobar 2 contraseñas iguales
-			//Comprobar email es un email
-			//Mandar a meter a la base de datos
-			mcomprobarregistro($_POST["email"],$_POST["contrasena"],$_POST["contrasena1"],$_POST["nombre"],$_POST["apellidos"],$_POST["direccion"],$_POST["comunidad"],$_POST["provincia"],$_POST["localidad"],$_POST["codpos"],$_POST["sexo"]);
+				$formulario=array("email"=>$_POST["email"],"contrasena"=>$_POST["contrasena"],"contrasena1"=>$_POST["contrasena1"],"nombre"=>$_POST["nombre"],
+				"apellido1"=>$_POST["apellido1"],"apellido2"=>$_POST["apellido2"],"sexo"=>$_POST["sexo"],"comunidad"=>$_POST["comunidad"],
+				"provincia"=>$_POST["provincia"],"poblacion"=>$_POST["poblacion"],"direccion"=>$_POST["direccion"],"codpos"=>$_POST["codpos"]);
+				$resultado=mcomprobarregistro($formulario);
+				/**
+				if($resultado==1){//Registro correcto
+					if(!isset($_SESSION)){
+						session_start();
+					}
+					$_SESSION["Email"]=$formulario["email"];
+					$_SESSION["contrasena"]=$formulario["contrasena"];
+				}
+				else{//Registro incorrecto
+					vmostrarregistro2($resultado,$formulario);
+				}
+				*/
 			break;
 				break;
 			default:

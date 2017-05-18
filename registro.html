@@ -9,31 +9,38 @@
 <script type="text/javascript" src="busquedas.js"></script>
 <body>
     ##cabecera##
+	##error##
     <form action="controlador.php?accion=compruebaregistro" method="post" accept-charset="utf-8">
         <p>Email</p>
-        <input type="text" name="usuario" />
+        <input type="text" name="email" />
         <p>Contrase&ntildea</p>
         <input type="password" name="contrasena" />
 		<p>Vuelva a escribir la contrase&ntildea</p>
         <input type="password" name="contrasena1" />
-		<p>Nombre completo</p>
+		<p>Nombre</p>
         <input type="text" name="nombre" />
-		<p>Direcci&oacuten</p>
-        <input type="text" name="direccion" />
-        <p>C&oacutedigo Postal</p>
-        <input type="text" name="codpos"  />
-    <p>Sexo</p>
-    <select name="sexo" >
+		<p>Apellido 1</p>
+		<input type="text" name="apellido1" />
+		<p>Apellido 2</p>
+		<input type="text" name="apellido2" />
+
+		<p>Sexo</p>
+		<select name="sexo" >
 			<option value="1">Hombre</option>
 			<option value="2">Mujer</option>
 		</select>
-    <br><br>
-    <div id="capacomunidades"></div>
-    <br>
-  	<div id="capaprovincias"></div>
-    <br>
-    <div id="capapoblaciones"></div>
-        <br> <br>
+		<br><br>
+		<div id="capacomunidades"></div>
+		<br>
+		<div id="capaprovincias"></div>
+		<br>
+		<div id="capapoblaciones"></div>
+		<p>Direcci&oacuten</p>
+        <input type="text" name="direccion" />
+
+		<p>C&oacutedigo Postal</p>
+		<input type="text" name="codpos"  />
+		<br><br>
         <input type="submit" value="Entrar">
     </form>
 	##footer##

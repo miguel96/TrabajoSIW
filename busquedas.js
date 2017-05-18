@@ -3,7 +3,7 @@
 			url: 'cargarcomunidades.php',
 			success: function (response) {
 				var infoComunidades=JSON.parse(response);
-				cadena="Comunidad <br><br> <select id='comunidad' onchange='cargarprovincias();'><option value=0>Elige una comunidad</option>";
+				cadena="Comunidad <br><br> <select id='comunidad' name='comunidad' onchange='cargarprovincias();'><option value=0>Elige una comunidad</option>";
 
 				for (comunidad in infoComunidades){
 						cadena+="<option value="+infoComunidades[comunidad]["id"]+">"+infoComunidades[comunidad]["comunidad"]+"</option>";
@@ -25,7 +25,7 @@
 			url: 'cargarprovincias.php?idcomunidad=' + $("#comunidad").val(),
 			success: function (response) {
 				var infoProvincias=JSON.parse(response);
-				cadena="Provincia <br><br><select id='provincia' onchange='cargarpoblaciones();'><option value=0>Elige una provincia</option>";
+				cadena="Provincia <br><br><select id='provincia' name='provincia' onchange='cargarpoblaciones();'><option value=0>Elige una provincia</option>";
 
 				for (provincia in infoProvincias){
 						cadena+="<option value="+infoProvincias[provincia]["id"]+">"+infoProvincias[provincia]["provincia"]+"</option>";
@@ -44,7 +44,7 @@
 			url: 'cargarpoblaciones.php?idprovincia=' + $("#provincia").val(),
 			success: function (response) {
 				var infoPoblaciones=JSON.parse(response);
-				cadena="Poblacion <br><br><select id='poblacion'><option value=0>Elige una poblaci&oacuten</option>";
+				cadena="Poblacion <br><br><select id='poblacion' name='poblacion'><option value=0>Elige una poblaci&oacuten</option>";
 
 				for (poblacion in infoPoblaciones){
 						cadena+="<option value="+infoPoblaciones[poblacion]["id"]+">"+infoPoblaciones[poblacion]["poblacion"]+"</option>";
