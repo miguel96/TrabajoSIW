@@ -8,39 +8,44 @@
 <body>
 	##cabecera##
 	<br><br>
-	<table>
-		<tr>
-			 <th>##imagen##</th>
-			 <th>
-				 <table>
-						<tr>
-							<th><h1>##nombre##</h1></th>
-						</tr>
-						<tr>
-								<th>Precio: ##precio## &#8364</th>
-						</tr>
-						<tr>
-								<th>Descripci&oacuten: ##descripcion##</th>
-						</tr>
-				 </table>
-			 </th>
-		</tr>
-		<tr>
-			<th>##addComentario##</th>
-		  <th>Stock: ##cantidad##</th>
-			<th>##addCarrito##</th>
-		</tr>
-		##comentario##
-			<tr>
-				<td>##nombreUsuario##</td>
-				<td>##apellido1Usuario##</td>
-				<td>##apellido2Usuario##</td>
-				<td>##texto##</td>
-				<td>##valoracion##</td>
-			</tr>
-		##comentario##
-</table>
-<br>
+		<div class="listaProducto">
+			 <div class="imagenProducto">##imagen##</div>
+			 <div class="nombreProducto">##nombre##</div>
+			 <br><br>
+			 <div class="producto1">##precio## &#8364</div>
+			 <br><br>
+			 <div class="producto2">##descripcion##</div>
+			 <br><br>
+			 <div class="producto1">Quedan: ##cantidad##</div>
+			 <br><br>
+			 <div class="producto1">##addCarrito##</div>
+			 <br><br>
+			 <div class="botonComentario">##addComentario##</div>
+			 <br><br>
+			<div class="comentarios">
+				<p>Comentarios:</p>
+				<br>
+				<table>
+					<tr>
+						<th>Nombre</th>
+						<th>Apellido</th>
+						<th>Apellido</th>
+						<th>Review</th>
+						<th>Valoracion</th>
+					</tr>
+					##comentario##
+					<tr>
+						<td>##nombreUsuario##</td>
+						<td>##apellido1Usuario##</td>
+						<td>##apellido2Usuario##</td>
+						<td>##texto##</td>
+						<td>##valoracion##</td>
+					</tr>
+				##comentario##
+				</table>
+		</div>
+	</div>
+	<br>
 ##footer##
 </body>
 </html>

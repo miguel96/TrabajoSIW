@@ -32,6 +32,8 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
   $cadena = str_replace("##descripcion##", $listadoproducto["Descripcion"], $cadena);
   $cadena = str_replace("##cantidad##", $listadoproducto["Stock"], $cadena);
   $cadena = str_replace("##imagen##","<img src=".$listadoproducto["Imagen"].">",$cadena);
+  //TODO hacer funcion comentarios y reemplazar link
+  $cadena = str_replace("##addComentario##","<a href=controlador.php?accion=producto&id=1>Deja tu comentario</a>",$cadena);
   //Bucle para montar los comentarios
   $comentarios="";
   $trozoscomentarios = explode("##comentario##", $cadena);
@@ -49,7 +51,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
   //}
   //Imprimimos el html
   $cadena = $trozoscomentarios[0] . $comentarios . $trozoscomentarios[2];
-  $cadena=str_replace("##addCarrito##", "<a href=controlador.php?accion=addCarrito&id=" .$listadoproducto["IdProducto"]  ."> A&ntildeadir al carrito</a>", $cadena);
+  $cadena=str_replace("##addCarrito##", "<a href=controlador.php?accion=addCarrito&id=" .$listadoproducto["IdProducto"]  ."> <img src=\"imagenes/carroTxiki\" ></a>", $cadena);
   echo $cadena;
 }
 
