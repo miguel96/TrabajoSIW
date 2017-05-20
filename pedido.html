@@ -8,29 +8,29 @@
 <body>
 	##cabecera##
   <br><br>
+	<div><h1>Tu carrito</h1></div>
+	<div class="cuerpoPagina">
   <table>
-    ##producto##
 		<th>Imagen</th>
 		<th>Nombre</th>
 		<th>Precio</th>
+    ##producto##
 			<tr>
-				<td>##imagen##</td>
+				<td><img src="imagenes/rufo"/></td>
         <td>##nombre##</td>
         <td>##precio##</td>
 			</tr>
 		##producto##
-	</table>
-	<br>
 		<tr>
-			<td>Precio:<td>
+			<td>Total:</td>
+			<td>##nart art&iacuteculos</td>
 			<td>##precioTotal##</td>
 		</tr>
-		<tr>
-			<td>##pagarAhora##</td>
-		</tr>
 	</table>
-
-
+	<div id="paypal">
+		<h2>##pagarAhora##</h2>
+	</div>
+</div>
   <br>
   ##footer##
 </body>

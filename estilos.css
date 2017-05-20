@@ -206,3 +206,33 @@ ul.menu li:active
 {
     font-size: 15px;
 }
+#paypal{
+  margin-left: 60%;
+  align-self: center;
+}
+.cuerpoPagina{
+  clear both;
+
+}
+.cuerpoPagina table{
+  margin: 0 auto;
+}
+th,td{
+  border-bottom:1px solid black;
+}
+table{
+  width:70%;
+}
+th{
+  height: 30px;
+}
+td,th{
+  padding:10px;
+}
+tr:nth-child(even) {
+   background-color: #f2f2f2
+ }
+th {
+    background-color: #2E9AFE;
+    color: white;
+}
