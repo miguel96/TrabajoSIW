@@ -50,7 +50,7 @@ body
 }
 .principal_galeria h1{
   color: black;
-  font-weight: bolder;  
+  font-weight: bolder;
 }
 .nombreProducto
 {
@@ -107,7 +107,7 @@ body
 
     text-decoration: none;
 
-    color: #white;
+    color: white;
     background: #e6e6e6;
 }
 

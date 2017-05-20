@@ -2,7 +2,7 @@
 function mmostrarproducto(){
     $id = $_GET["id"];
     //Codigo para coger info de bbdd
-    $servidor ="dbserver";
+    $servidor ="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -34,7 +34,7 @@ function mmostrarproducto(){
 function mmostrarreviewsproducto(){
   $id = $_GET["id"];
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -69,7 +69,7 @@ function mmostrarreviewsproducto(){
 
 function mmostrarreviewsusuario($id){
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -104,7 +104,7 @@ function mmostrarreviewsusuario($id){
 function mmostrarpedidosusuario($id){
 //Buscamos la id en la sesion o en la url, si no no mostramos nada
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -147,7 +147,7 @@ function mmostrarpedido(){
     $productos=array();
   }
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -180,7 +180,7 @@ function mmostrarpedido(){
 }
 
 function mgetUsuario($email){
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -208,7 +208,7 @@ function mgetUsuario($email){
   return $resultado;
 }
 function mestalogin($id,$contrasena){
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -238,7 +238,7 @@ function mestalogin($id,$contrasena){
 //Codigo Ruben
 
 function mpedidopertenece($idPedido,$idUsuario){
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -268,7 +268,7 @@ function mpedidopertenece($idPedido,$idUsuario){
 
 function mmostrarproductospedidoid($id){
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -320,7 +320,7 @@ function mmostrarproductospedidoid($id){
   return $resultados;
 }
 	function mlistadoproductos(){
-    $servidor="dbserver";
+    $servidor="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -347,7 +347,7 @@ function mmostrarproductospedidoid($id){
       }
     }
     echo $formulario["email"];
-    $servidor="dbserver";
+    $servidor="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -376,7 +376,7 @@ function mmostrarproductospedidoid($id){
     else{
         //TODO insertar al usuario en la BBDD
 
-        $servidor="dbserver";
+        $servidor="127.0.0.1";
         $usuario="siw06";
         $password="asahwaeche";
         $dbname="db_siw06";
@@ -412,7 +412,7 @@ function mmostrarproductospedidoid($id){
       }
   }
 	function mcomprobarlogin($user,$contrasena){
-    $servidor="dbserver";
+    $servidor="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -446,7 +446,7 @@ function mmostrarproductospedidoid($id){
 			imagecopyresized($peq,$imagen,0,0,0,0,100,100*$ratio,$ancho,$alto);
 			imagejpeg($peq,$imp);
 
-			$servidor="dbserver";
+			$servidor="127.0.0.1";
 			$usuario="siw06";
 			$password="asahwaeche";
 			$dbname="db_siw06";
