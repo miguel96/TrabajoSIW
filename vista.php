@@ -1,5 +1,4 @@
 <?php
-//TODO Hay que cambiar los titulos en casi todas las vistas
 function cabecera($cadena){
   header("Content-Type: text/html; charset=iso-8859-1");
   $cabecera=file_get_contents("cabecera.html");
@@ -111,7 +110,7 @@ function vmostrarpedido($listadoproductos){
   $trozosproductos = explode("##producto##", $cadena);
   $precio=0;
   $productos="";
-  if($listadoproductos!="")
+  if($listadoproductos!=""){
       foreach ($listadoproductos as $producto) {
         $aux = $trozosproductos[1];
         $aux = str_replace("##nombre##", $producto["Nombre"], $aux);
@@ -119,9 +118,15 @@ function vmostrarpedido($listadoproductos){
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
       }
+        $trozosproductos[2]=str_replace("##nart##",sizeof($listadoproductos),$trozosproductos[2]);
+  }
+  else{
+        $trozosproductos[2]=str_replace("##nart##","No hay ",$trozosproductos[2]);
+  }
   $cadena=$trozosproductos[0] . $productos  . $trozosproductos[2];
   $cadena=str_replace("##precioTotal##",$precio."&#8364",$cadena);
   $cadena=str_replace("##pagarAhora##",vpagarpaypal($precio),$cadena);
+
   echo $cadena;
 }
 function vpedidotoPDF($listadoproductos){
@@ -170,7 +175,7 @@ function vpagarpaypal($precio){
 	function vmostrarlogin(){
 		$cadena = file_get_contents("login.html");
     $cadena = cabecera($cadena);
-	$cadena = footer($cadena);
+	  $cadena = footer($cadena);
     $cadena=str_replace("##titulo##","Rufocube-Login",$cadena);
 		echo str_replace("##cabecera##", file_get_contents("cabecera.html"),$cadena);
 	}
@@ -178,8 +183,65 @@ function vpagarpaypal($precio){
 	function vmostrarregistro(){
 		$cadena = file_get_contents("registro.html");
 		$cadena = cabecera($cadena);
-	$cadena = footer($cadena);
+	  $cadena = footer($cadena);
     $cadena=str_replace("##titulo##","Rufocube-Registro",$cadena);
+    $cadena=str_replace("<div class=\"campoFormulario\"><p>##Error##</p></div>","",$cadena);
+    $cadena=str_replace("##email##","",$cadena);
+    $cadena=str_replace("##contrasena##","",$cadena);
+    $cadena=str_replace("##contrasena1##","",$cadena);
+    $cadena=str_replace("##nombre##","",$cadena);
+    $cadena=str_replace("##apellido1##","",$cadena);
+    $cadena=str_replace("##apellido2##","",$cadena);
+    $cadena=str_replace("##sexo##","",$cadena);
+    $cadena=str_replace("##direccion##","",$cadena);
+    $cadena=str_replace("##codpos##","",$cadena);
 		echo $cadena;
 	}
+  function vmostrarregistro2($resultado,$formulario){
+		$cadena = file_get_contents("registro.html");
+		$cadena = cabecera($cadena);
+	  $cadena = footer($cadena);
+    $cadena=str_replace("##Error##",$resultado,$cadena);
+    $cadena=str_replace("##titulo##","Rufocube-Registro",$cadena);
+    if($resultado=="El email ya existe."||$resultado=="Esta direcci&oacuten de correo no es v&aacutelida.") {
+      $cadena=str_replace("##email##","",$cadena);
+    }
+    else{
+      $cadena=str_replace("##email##",$formulario["email"],$cadena);
+    }
+    if($resultado=="Las contrase&ntildeas no coinciden."){
+      $cadena=str_replace("##contrasena##","",$cadena);
+      $cadena=str_replace("##contrasena1##","",$cadena);
+    }
+    else{
+      $cadena=str_replace("##contrasena##",$formulario["contrasena"],$cadena);
+      $cadena=str_replace("##contrasena1##",$formulario["contrasena1"],$cadena);
+    }
+    $cadena=str_replace("##nombre##",$formulario["nombre"],$cadena);
+    $cadena=str_replace("##apellido1##",$formulario["apellido1"],$cadena);
+    $cadena=str_replace("##apellido2##",$formulario["apellido2"],$cadena);
+    $cadena=str_replace("##sexo##",$formulario["sexo"],$cadena);
+    $cadena=str_replace("##direccion##",$formulario["direccion"],$cadena);
+    $cadena=str_replace("##codpos##",$formulario["codpos"],$cadena);
+		echo $cadena;
+	}
+
+  function vmicuenta($formulario){
+    $cadena = file_get_contents("registro.html");
+		$cadena = cabecera($cadena);
+	  $cadena = footer($cadena);
+    $cadena=str_replace("accion=compruebaregistro","accion=actualizacuenta",$cadena);
+    $cadena=str_replace("##Error##","",$cadena);
+    $cadena=str_replace("##titulo##","Rufocube-MiCuenta",$cadena);
+    $cadena=str_replace("##email##",$formulario["email"],$cadena);
+    $cadena=str_replace("##contrasena##",$formulario["contrasena"],$cadena);
+    $cadena=str_replace("##contrasena1##","",$cadena);
+    $cadena=str_replace("##nombre##",$formulario["nombre"],$cadena);
+    $cadena=str_replace("##apellido1##",$formulario["apellido1"],$cadena);
+    $cadena=str_replace("##apellido2##",$formulario["apellido2"],$cadena);
+    $cadena=str_replace("##sexo##",$formulario["sexo"],$cadena);
+    $cadena=str_replace("##direccion##",$formulario["direccion"],$cadena);
+    $cadena=str_replace("##codpos##",$formulario["codpos"],$cadena);
+    echo $cadena;
+  }
 ?>

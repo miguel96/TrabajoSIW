@@ -79,7 +79,7 @@
 			if (isset($_POST["Email"])) {
 				$email = $_POST["Email"];
 			} else if (isset($_SESSION["Email"])) {
-					$accion = $_SESSION["Email"];
+					$email = $_SESSION["Email"];
 				}
 				else {
 					$email="";
@@ -92,6 +92,7 @@
 				else {
 					$contrasena="";
 				}
+				echo $email;
 				if (mcomprobarlogin($email,$contrasena)){
 						//Iniciamos la Sesion
 						if(!isset($_SESSION)){
@@ -144,20 +145,38 @@
 				"apellido1"=>$_POST["apellido1"],"apellido2"=>$_POST["apellido2"],"sexo"=>$_POST["sexo"],"comunidad"=>$_POST["comunidad"],
 				"provincia"=>$_POST["provincia"],"poblacion"=>$_POST["poblacion"],"direccion"=>$_POST["direccion"],"codpos"=>$_POST["codpos"]);
 				$resultado=mcomprobarregistro($formulario);
-				/**
-				if($resultado==1){//Registro correcto
+				if($resultado=="OK"){//Registro correcto
 					if(!isset($_SESSION)){
 						session_start();
 					}
 					$_SESSION["Email"]=$formulario["email"];
 					$_SESSION["contrasena"]=$formulario["contrasena"];
+					header('Location:controlador.php?accion=compruebalogin');
 				}
-				else{//Registro incorrecto
+				else{
 					vmostrarregistro2($resultado,$formulario);
 				}
-				*/
 			break;
-				break;
+		case "micuenta":
+			if(!isset($_SESSION))
+				session_start();
+			$user=$_SESSION["Usuario"];
+			if(!filter_var($user,FILTER_VALIDATE_INT)===false){
+				$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
+				if(mestalogin($user,$password)){
+					vmicuenta(mgetinfo($user));
+				}
+				else{
+						header('Location:controlador.php?accion=login');
+				}
+			}
+			else {
+				header('Location:controlador.php?accion=login');
+			}
+			break;
+		case "actualizacuenta":
+				//TODO actualiza la informacion de la cuenta
+			break;
 			default:
 				vmostrarlistadoproductos(mlistadoproductos());
 				break;

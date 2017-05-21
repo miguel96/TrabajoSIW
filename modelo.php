@@ -311,7 +311,7 @@ function mmostrarproductospedidoid($id){
     echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
   }
   if(!$sentencia1->bind_result($infoPedido["fecha"],$infoPedido["estado"])){
-    echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+    echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
   }
   $sentencia1->fetch();
   $resultados['infoPedido']['estado']=$infoPedido["estado"];
@@ -368,13 +368,11 @@ function mmostrarproductospedidoid($id){
         return("El email ya existe.");
     }
     else if (!filter_var($formulario["email"], FILTER_VALIDATE_EMAIL)) {
-        return("Esta dirección de correo no es válida.");
+        return("Esta direcci&oacuten de correo no es v&aacutelida.");
     }else if($formulario["contrasena"]!=$formulario["contrasena1"]){
-        return("Las contraseñas no coinciden.");
+        return("Las contrase&ntildeas no coinciden.");
     }
     else{
-        //TODO insertar al usuario en la BBDD
-
         $servidor="127.0.0.1";
         $usuario="siw06";
         $password="asahwaeche";
@@ -384,20 +382,13 @@ function mmostrarproductospedidoid($id){
           die("Conexion fallida:" .mysqli_connect_error);
     		}
         //Ahora sacamos la info del pedido
-        if (!($sentencia1 = $mysqli->prepare("INSERT INTO `usuarios`(`idUsuario`, `Nombre`, `apellido1`, `apellido2`, `email`, `password`, `direccion`,
-           `CP`, `Sexo`, `Comunidad`, `Provincia`, `Municipio`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"))){
+        if (!($sentencia1 = $mysqli->prepare("INSERT INTO `usuarios`(`Nombre`, `apellido1`, `apellido2`, `email`, `password`, `direccion`,
+           `CP`, `Sexo`, `Comunidad`, `Provincia`, `Municipio`) VALUES (?,?,?,?,?,?,?,?,?,?,?)"))){
           ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
         }
-        $formulario["nombre"]="'".$formulario["nombre"]."'";
-        $formulario["apellido1"]="'".$formulario["apellido1"]."'";
-        $formulario["apellido2"]="'".$formulario["apellido2"]."'";
-        $formulario["email"]="'".$formulario["email"]."'";
-        $formulario["contrasena"]="'".$formulario["contrasena"]."'";
-        $formulario["direccion"]="'".$formulario["direccion"]."'";
-
         print_r($formulario);
         //Preparamos la consulta
-        if (!$sentencia1->bind_param("issssssiiiii",$idUsuario=4,$formulario["nombre"],$formulario["apellido1"],$formulario["apellido2"],
+        if (!$sentencia1->bind_param("ssssssiiiii",$formulario["nombre"],$formulario["apellido1"],$formulario["apellido2"],
         $formulario["email"],$formulario["contrasena"],$formulario["direccion"],$formulario["codpos"],$formulario["sexo"],$formulario["comunidad"],
         $formulario["provincia"],$formulario["poblacion"])){
           echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
@@ -405,7 +396,7 @@ function mmostrarproductospedidoid($id){
         if (!$sentencia1->execute()) {
           echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
         }
-        $sentencia->close();
+        $sentencia1->close();
         mysqli_close($mysqli);
         return "OK";
       }
@@ -429,11 +420,41 @@ function mmostrarproductospedidoid($id){
     if (!$sentencia->execute()) {
       echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
     }
-
     $login=($sentencia->fetch())>0;
     mysqli_close($mysqli);
     return $login;
+
+    mysqli_close($mysqli);
+    return $login;
 	}
+  function mgetinfo($idUser){
+    $servidor="127.0.0.1";
+    $usuario="siw06";
+    $password="asahwaeche";
+    $dbname="db_siw06";
+    $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+    if(!$mysqli){
+      die("Conexion fallida:" .mysqli_connect_error);
+    }
+    if (!($sentencia = $mysqli->prepare("SELECT idUsuario,Nombre,apellido1,apellido2,email,password,direccion,CP,sexo,Comunidad,Provincia,Municipio from usuarios WHERE idUsuario=?"))){
+      ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+    //Preparamos la consulta
+    if (!$sentencia->bind_param("i",$idUser)) {
+      echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    if(!$sentencia->bind_result($formulario["id"],$formulario["nombre"],$formulario["apellido1"],$formulario["apellido2"],
+    $formulario["email"],$formulario["contrasena"],$formulario["direccion"],$formulario["codpos"],$formulario["sexo"],$formulario["comunidad"],
+    $formulario["provincia"],$formulario["poblacion"])){
+      echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    if (!$sentencia->execute()) {
+      echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    $sentencia->fetch();
+    mysqli_close($mysqli);
+    return $formulario;
+  }
 
   function msubirimagen($nombre,$img,$tipo){
 

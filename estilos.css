@@ -14,9 +14,8 @@ h1
 
     text-align: center;
 
-    color: #585858;
+    color: #black;
 }
-
 body
 {
     margin: auto;
@@ -254,6 +253,9 @@ ul.menu li:active
 .cuerpoPagina
 {
     clear: both;
+    background-color: white;
+    opacity: 0.9;
+    overflow: auto;
 }
 .cuerpoPagina table
 {
@@ -304,18 +306,15 @@ th
 
     text-align: center;
     text-transform: uppercase;
-
-    color: white;
+    background-color: white;
+    opacity: 0.9;
+    color: black;
 }
 #crearcuenta
 {
     text-transform: Capitalize;
 }
 
-.campoFormulario{
-  margin:10px;
-  background-color: black;
-}
 #formulariologin .logintexto,
 #formularioregistro .registrotexto
 {
