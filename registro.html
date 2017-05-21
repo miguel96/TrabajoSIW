@@ -11,36 +11,42 @@
 <body>
     ##cabecera##
 	##error##
+  <br><br>
     <form id="formularioregistro" action="controlador.php?accion=compruebaregistro" method="post" accept-charset="utf-8">
+<div clas="campoFormulario">
         <p>Email</p>
         <input class="registrotexto" type="text" name="email" />
+      </div><div clas="campoFormulario">
         <p>Contrase&ntildea</p>
         <input class="registrotexto" type="password" name="contrasena" />
+        </div><div clas="campoFormulario">
 		<p>Vuelva a escribir la contrase&ntildea</p>
         <input class="registrotexto" type="password" name="contrasena1" />
+        </div><div clas="campoFormulario">
 		<p>Nombre</p>
         <input class="registrotexto" type="text" name="nombre" />
+        </div><div clas="campoFormulario">
 		<p>Apellido 1</p>
 		<input class="registrotexto" type="text" name="apellido1" />
-		<p>Apellido 2</p>
+    </div><div clas="campoFormulario">
+    <p>Apellido 2</p>
 		<input class="registrotexto" type="text" name="apellido2" />
-
+    </div><div clas="campoFormulario">
 		<p>Sexo</p>
 		<select name="sexo" >
 			<option value="1">Hombre</option>
 			<option value="2">Mujer</option>
 		</select>
-		<br><br>
-		<div id="capacomunidades"></div>
-		<br>
-		<div id="capaprovincias"></div>
-		<br>
-		<div id="capapoblaciones"></div>
+    </div><div clas="campoFormulario" id="capacomunidades">
+    </div><div clas="campoFormulario" id="capaprovincias">
+    </div><div clas="campoFormulario" id="capapoblaciones">
+    </div><div clas="campoFormulario">
 		<p>Direcci&oacuten</p>
         <input class="registrotexto" type="text" name="direccion" />
-
+    </div><div clas="campoFormulario">
 		<p>C&oacutedigo Postal</p>
 		<input class="registrotexto" type="text" name="codpos"  />
+    </div>
 		<br><br>
         <input class="botonregistro" type="submit" value="Entrar">
     </form>

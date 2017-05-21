@@ -1,9 +1,11 @@
 
-html { 
-  background: url(imagenes/rubiks-cube.png) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
+html
+{
+    background: url(imagenes/rubiks-cube.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+
+            background-size: cover;
+
 }
 h1
 {
@@ -17,21 +19,23 @@ h1
 
 body
 {
-
+    margin: auto;
     padding: 40px;
+
     align-items: center;
     align-content: center;
     align-self: center;
-    margin: auto;
-
 }
 
-#nombreprecio,#nombreprecio a{
-	color: white;
-	background-color:#8080FB;
-	border-radius: 5px;
+#nombreprecio,
+#nombreprecio a
+{
+    color: white;
+    border-radius: 5px;
+    background-color: #8080fb;
+    text-align: center;
 }
-	
+
 #imagenCabecera
 {
     margin: auto;
@@ -39,32 +43,44 @@ body
 
 .principal_galeria
 {
-    float:left
+  background-color: white;
+  opacity: .95;
+    float: left;
 }
-.principal_galeria ul{
-  overflow: auto;
-  align-self: center;
-  
+.principal_galeria ul
+{
+    overflow: auto;
+
+    align-self: center;
 }
-.principal_galeria li{
-  display:block;
-  align-self: center;
-  float:left;
-  width: 25%;
-  margin-left: 5%;
+.principal_galeria li
+{
+    display: block;
+    float: left;
+
+    width: 25%;
+    margin-left: 5%;
+
+    align-self: center;
 }
-.principal_galeria li a{
-  text-decoration: none;
-  color:black;
-  font-size: 20px;
-  font-stretch: extra-expanded;
+.principal_galeria li a
+{
+    font-size: 20px;
+    font-stretch: extra-expanded;
+
+    text-decoration: none;
+
+    color: black;
 }
-.principal_galeria li a:visited{
- color:black;
+.principal_galeria li a:visited
+{
+    color: black;
 }
-.principal_galeria h1{
-  color: black;
-  font-weight: bolder;
+.principal_galeria h1
+{
+    font-weight: bolder;
+
+    color: black;
 }
 .nombreProducto
 {
@@ -73,7 +89,6 @@ body
     font-weight: bold;
 
     float: left;
-
     margin: 0;
     padding: 0;
 
@@ -101,7 +116,11 @@ body
     float: left;
     overflow: auto;
 }
-
+.descripcionProducto{
+  overflow-y: auto;
+  margin-top:1.5%;
+  margin-left:1.5%;
+}
 .botonComentario
 {
     float: right;
@@ -206,17 +225,19 @@ ul.menu li:active
 {
     clear: both;
     overflow: hidden;
-	background: lightgrey;
-	opacity: 0.9;
+
+    opacity: .9;
+    background: lightgrey;
 }
 
 .footer .lista
 {
-	
-    width:20%;
-    margin:5%;
     font-size: 30px;
+
     float: left;
+
+    width: 20%;
+    margin: 5%;
 }
 
 .footer .lista ul
@@ -224,89 +245,138 @@ ul.menu li:active
     font-size: 15px;
 }
 
-#paypal{
-  margin-left: 45%;
-  align-self: center;
+#paypal
+{
+    margin-left: 45%;
+
+    align-self: center;
 }
-.cuerpoPagina{
-  clear both;
+.cuerpoPagina
+{
+    clear: both;
+}
+.cuerpoPagina table
+{
+    margin: 0 auto;
 
 }
-.cuerpoPagina table{
-  margin: 0 auto;
+th,
+td
+{
+    border-bottom: 1px solid black;
 }
-th,td{
-  border-bottom:1px solid black;
+table
+{
+    width: 70%;
+    background-color: white;
+    opacity: 0.9;
 }
-table{
-  width:70%;
+th
+{
+    height: 30px;
 }
-th{
-  height: 30px;
+td,
+th
+{
+    padding: 10px;
 }
-td,th{
-  padding:10px;
+tr:nth-child(even)
+{
+    background-color: #f2f2f2;
 }
-tr:nth-child(even) {
-   background-color: #f2f2f2
- }
-th {
-    background-color: #2E9AFE;
+th
+{
+    color: white;
+    background-color: #2e9afe;
+}
+#formularioregistro
+{
+    padding: 2% 0 6% 10%;
+    background-color: white;
+    opacity: 0.9;
+    text-transform: uppercase;
+    column-count: 2;
+    color: black;
+}
+#formulariologin
+{
+    padding: 5% 0;
+
+    text-align: center;
+    text-transform: uppercase;
+
     color: white;
 }
-#formularioregistro{
-	color:white;
+#crearcuenta
+{
+    text-transform: Capitalize;
 }
-#formularioregistro{
-	padding: 0% 0% 0% 10%;
-	text-transform: uppercase;
-	color:white;
+
+.campoFormulario{
+  margin:10px;
+  background-color: black;
 }
-#formulariologin{
-	padding: 5% 0%;
-	text-align: center;
-	text-transform: uppercase;
-	color: white;
-	
+#formulariologin .logintexto,
+#formularioregistro .registrotexto
+{
+    width: 100px;
+
+    -webkit-transition: width .5s;
+            transition: width .5s;
+
+    background-color: lightblue;
 }
-#crearcuenta{
-	text-transform: Capitalize;
-	
-}	
-#formulariologin .logintexto, #formularioregistro .registrotexto{
-	background-color:lightblue;
-	width: 100px;
-	-webkit-transition: width 0.5s;
-	transition: width 0.5s;
+#formulariologin .logintexto:focus,
+#formularioregistro .registrotexto
+{
+    width: 200px;
+
+    outline: 0;
 }
-#formulariologin .logintexto:focus, #formularioregistro .registrotexto{
-	
-	width:200px;
-	outline:0px;
+#formulariologin input,
+#formularioregistro input,
+#formularioregistro select
+{
+    border-radius: 10px;
 }
-#formulariologin input, #formularioregistro input,#formularioregistro select{
-	border-radius: 10px
-}	
-#formularioregistro select{
-	background-color:lightblue;
+#formularioregistro select
+{
+    background-color: lightblue;
 }
-#formulariologin .botonlogin:hover, #formularioregistro .botonregistro:hover{
-	background: white;
+#formulariologin .botonlogin:hover,
+#formularioregistro .botonregistro:hover
+{
+    background: white;
 }
-#crearcuenta, .footer a{
-	text-decoration: none;
-	color: #2E9AFE;
+.footer a
+{
+    text-decoration: none;
+
+    color: #2e9afe;
 }
-#crearcuenta .texto{
-	text-align:center;
-}	
-#crearcuenta:hover, .footer a:hover{
-	text-decoration: underline;
-	color: #1E1BFF;
+#crearcuenta {
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 2px solid grey;
 }
-#formularioregistro select{
-	outline:0px;
-}	
-#formularioregistro select:hover{
-	outline:0px;
+.footer a:hover
+{
+    text-decoration: underline;
+
+    color: #1e1bff;
+}
+#formularioregistro select
+{
+    outline: 0;
+}
+#formularioregistro select:hover
+{
+    outline: 0;
+}
+.listaProducto{
+  background-color: white;
+  opacity: 0.9;
+  overflow: auto;
 }

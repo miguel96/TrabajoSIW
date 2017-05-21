@@ -2,7 +2,7 @@
 function mmostrarproducto(){
     $id = $_GET["id"];
     //Codigo para coger info de bbdd
-    $servidor ="dbserver";
+    $servidor ="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -34,7 +34,7 @@ function mmostrarproducto(){
 function mmostrarreviewsproducto(){
   $id = $_GET["id"];
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -69,7 +69,7 @@ function mmostrarreviewsproducto(){
 
 function mmostrarreviewsusuario($id){
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -104,7 +104,7 @@ function mmostrarreviewsusuario($id){
 function mmostrarpedidosusuario($id){
 //Buscamos la id en la sesion o en la url, si no no mostramos nada
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -147,7 +147,7 @@ function mmostrarpedido(){
     $productos=array();
   }
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -180,7 +180,7 @@ function mmostrarpedido(){
 }
 
 function mgetUsuario($email){
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -208,7 +208,7 @@ function mgetUsuario($email){
   return $resultado;
 }
 function mestalogin($id,$contrasena){
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -238,7 +238,7 @@ function mestalogin($id,$contrasena){
 //Codigo Ruben
 
 function mpedidopertenece($idPedido,$idUsuario){
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -268,7 +268,7 @@ function mpedidopertenece($idPedido,$idUsuario){
 
 function mmostrarproductospedidoid($id){
   //Codigo para coger info de bbdd
-  $servidor="dbserver";
+  $servidor="127.0.0.1";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -320,7 +320,7 @@ function mmostrarproductospedidoid($id){
   return $resultados;
 }
 	function mlistadoproductos(){
-    $servidor="dbserver";
+    $servidor="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -346,8 +346,7 @@ function mmostrarproductospedidoid($id){
         return("Rellene todos los campos del registro.");
       }
     }
-    echo $formulario["email"];
-    $servidor="dbserver";
+    $servidor="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -376,7 +375,7 @@ function mmostrarproductospedidoid($id){
     else{
         //TODO insertar al usuario en la BBDD
 
-        $servidor="dbserver";
+        $servidor="127.0.0.1";
         $usuario="siw06";
         $password="asahwaeche";
         $dbname="db_siw06";
@@ -412,35 +411,39 @@ function mmostrarproductospedidoid($id){
       }
   }
 	function mcomprobarlogin($user,$contrasena){
-    $servidor="dbserver";
+    $servidor="127.0.0.1";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
-		$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
-		if(!$mysqli){
-            die("Conexion fallida:" .mysqli_connect_error);
+    $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+    if(!$mysqli){
+      die("Conexion fallida:" .mysqli_connect_error);
 		}
-		$consulta = mysqli_query($mysqli,"select email,password from usuarios");
-		$login = false;
-		while ($fila = mysqli_fetch_assoc($consulta)){
-			if ($user==$fila["email"] and $contrasena==$fila["password"]){
-				$login = true;
-				break;
-			}
-		}
+    if (!($sentencia = $mysqli->prepare("SELECT count(email) from usuarios WHERE email=? and password=?"))){
+      ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+    //Preparamos la consulta
+    if (!$sentencia->bind_param("ss",$user,$contrasena)) {
+      echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    if (!$sentencia->execute()) {
+      echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+
+    $login=($sentencia->fetch())>0;
     mysqli_close($mysqli);
-		return $login;
+    return $login;
 	}
 
   function msubirimagen($nombre,$img,$tipo){
 
 		$rand = rand(0,10000);
 		$im = "imagenes/" .$rand."_". $nombre;
-		
+
 		if (move_uploaded_file($img,$im)){
 			list($ancho,$alto) = getimagesize($im);
 			$ratio = ($ancho/$alto);
-			
+
 			switch ($tipo){
 				case "image/jpeg":
 					header('Content-Type: image/jpeg');
@@ -449,12 +452,12 @@ function mmostrarproductospedidoid($id){
 					$imp = str_replace(".jpg","_peq.jpg",$im );
 					imagecopyresized($peq,$imagen,0,0,0,0,100,100/$ratio,$ancho,$alto);
 					imagejpeg($peq,$imp);
-					
+
 					$med = imagecreatetruecolor(200,200/$ratio);
 					$imm = str_replace(".jpg","_med.jpg",$im );
 					imagecopyresized($med,$imagen,0,0,0,0,200,200/$ratio,$ancho,$alto);
 					imagejpeg($med,$imm);
-					
+
 					$gran = imagecreatetruecolor(300,300/$ratio);
 					$imgr = str_replace(".jpg","_grande.jpg",$im );
 					imagecopyresized($gran,$imagen,0,0,0,0,300,300/$ratio,$ancho,$alto);
@@ -467,12 +470,12 @@ function mmostrarproductospedidoid($id){
 					$imp = str_replace(".png","_peq.png",$im );
 					imagecopyresized($peq,$imagen,0,0,0,0,100,100/$ratio,$ancho,$alto);
 					imagepng($peq,$imp);
-					
+
 					$med = imagecreatetruecolor(250,250/$ratio);
 					$imm = str_replace(".png","_med.png",$im );
 					imagecopyresized($med,$imagen,0,0,0,0,250,250/$ratio,$ancho,$alto);
 					imagepng($med,$imm);
-					
+
 					$gran = imagecreatetruecolor(500,500/$ratio);
 					$imgr = str_replace(".png","_grande.png",$im );
 					imagecopyresized($gran,$imagen,0,0,0,0,500,500/$ratio,$ancho,$alto);
@@ -481,7 +484,7 @@ function mmostrarproductospedidoid($id){
 			}
 			unlink($im);
 
-			$servidor="dbserver";
+			$servidor="127.0.0.1";
 			$usuario="siw06";
 			$password="asahwaeche";
 			$dbname="db_siw06";
