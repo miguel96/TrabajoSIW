@@ -170,6 +170,7 @@ function vpagarpaypal($precio){
 	function vmostrarlogin(){
 		$cadena = file_get_contents("login.html");
     $cadena = cabecera($cadena);
+	$cadena = footer($cadena);
     $cadena=str_replace("##titulo##","Rufocube-Login",$cadena);
 		echo str_replace("##cabecera##", file_get_contents("cabecera.html"),$cadena);
 	}
@@ -177,6 +178,7 @@ function vpagarpaypal($precio){
 	function vmostrarregistro(){
 		$cadena = file_get_contents("registro.html");
 		$cadena = cabecera($cadena);
+	$cadena = footer($cadena);
     $cadena=str_replace("##titulo##","Rufocube-Registro",$cadena);
 		echo $cadena;
 	}

@@ -2,7 +2,7 @@
 function mmostrarproducto(){
     $id = $_GET["id"];
     //Codigo para coger info de bbdd
-    $servidor ="127.0.0.1";
+    $servidor ="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -34,7 +34,7 @@ function mmostrarproducto(){
 function mmostrarreviewsproducto(){
   $id = $_GET["id"];
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -69,7 +69,7 @@ function mmostrarreviewsproducto(){
 
 function mmostrarreviewsusuario($id){
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -104,7 +104,7 @@ function mmostrarreviewsusuario($id){
 function mmostrarpedidosusuario($id){
 //Buscamos la id en la sesion o en la url, si no no mostramos nada
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -147,7 +147,7 @@ function mmostrarpedido(){
     $productos=array();
   }
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -180,7 +180,7 @@ function mmostrarpedido(){
 }
 
 function mgetUsuario($email){
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -208,7 +208,7 @@ function mgetUsuario($email){
   return $resultado;
 }
 function mestalogin($id,$contrasena){
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -238,7 +238,7 @@ function mestalogin($id,$contrasena){
 //Codigo Ruben
 
 function mpedidopertenece($idPedido,$idUsuario){
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -268,7 +268,7 @@ function mpedidopertenece($idPedido,$idUsuario){
 
 function mmostrarproductospedidoid($id){
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -320,7 +320,7 @@ function mmostrarproductospedidoid($id){
   return $resultados;
 }
 	function mlistadoproductos(){
-    $servidor="127.0.0.1";
+    $servidor="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -347,7 +347,7 @@ function mmostrarproductospedidoid($id){
       }
     }
     echo $formulario["email"];
-    $servidor="127.0.0.1";
+    $servidor="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -376,7 +376,7 @@ function mmostrarproductospedidoid($id){
     else{
         //TODO insertar al usuario en la BBDD
 
-        $servidor="127.0.0.1";
+        $servidor="dbserver";
         $usuario="siw06";
         $password="asahwaeche";
         $dbname="db_siw06";
@@ -412,7 +412,7 @@ function mmostrarproductospedidoid($id){
       }
   }
 	function mcomprobarlogin($user,$contrasena){
-    $servidor="127.0.0.1";
+    $servidor="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -432,21 +432,56 @@ function mmostrarproductospedidoid($id){
 		return $login;
 	}
 
-  function msubirimagen($nombre,$img){
+  function msubirimagen($nombre,$img,$tipo){
 
 		$rand = rand(0,10000);
 		$im = "imagenes/" .$rand."_". $nombre;
-		header('Content-Type: image/jpeg');
+		
 		if (move_uploaded_file($img,$im)){
 			list($ancho,$alto) = getimagesize($im);
 			$ratio = ($ancho/$alto);
-			$peq = imagecreatetruecolor(100,100*$ratio);
-			$imagen = imagecreatefromjpeg($im);
-			$imp = str_replace(".jpg","_peq.jpg",$im );
-			imagecopyresized($peq,$imagen,0,0,0,0,100,100*$ratio,$ancho,$alto);
-			imagejpeg($peq,$imp);
+			
+			switch ($tipo){
+				case "image/jpeg":
+					header('Content-Type: image/jpeg');
+					$imagen = imagecreatefromjpeg($im);
+					$peq = imagecreatetruecolor(100,100/$ratio);
+					$imp = str_replace(".jpg","_peq.jpg",$im );
+					imagecopyresized($peq,$imagen,0,0,0,0,100,100/$ratio,$ancho,$alto);
+					imagejpeg($peq,$imp);
+					
+					$med = imagecreatetruecolor(200,200/$ratio);
+					$imm = str_replace(".jpg","_med.jpg",$im );
+					imagecopyresized($med,$imagen,0,0,0,0,200,200/$ratio,$ancho,$alto);
+					imagejpeg($med,$imm);
+					
+					$gran = imagecreatetruecolor(300,300/$ratio);
+					$imgr = str_replace(".jpg","_grande.jpg",$im );
+					imagecopyresized($gran,$imagen,0,0,0,0,300,300/$ratio,$ancho,$alto);
+					imagejpeg($gran,$imgr);
+					break;
+				case "image/png":
+					header('Content-Type: image/png');
+					$peq = imagecreatetruecolor(100,100/$ratio);
+					$imagen = imagecreatefrompng($im);
+					$imp = str_replace(".png","_peq.png",$im );
+					imagecopyresized($peq,$imagen,0,0,0,0,100,100/$ratio,$ancho,$alto);
+					imagepng($peq,$imp);
+					
+					$med = imagecreatetruecolor(250,250/$ratio);
+					$imm = str_replace(".png","_med.png",$im );
+					imagecopyresized($med,$imagen,0,0,0,0,250,250/$ratio,$ancho,$alto);
+					imagepng($med,$imm);
+					
+					$gran = imagecreatetruecolor(500,500/$ratio);
+					$imgr = str_replace(".png","_grande.png",$im );
+					imagecopyresized($gran,$imagen,0,0,0,0,500,500/$ratio,$ancho,$alto);
+					imagepng($gran,$imgr);
+					break;
+			}
+			unlink($im);
 
-			$servidor="127.0.0.1";
+			$servidor="dbserver";
 			$usuario="siw06";
 			$password="asahwaeche";
 			$dbname="db_siw06";

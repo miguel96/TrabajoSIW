@@ -1,3 +1,10 @@
+
+html { 
+  background: url(imagenes/rubiks-cube.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
 h1
 {
     font-size: 40px;
@@ -10,16 +17,21 @@ h1
 
 body
 {
-    padding: 10px;
 
-    border: #e6e6e6 40px solid;
-
+    padding: 40px;
     align-items: center;
     align-content: center;
     align-self: center;
-    margin:auto;
+    margin: auto;
+
 }
 
+#nombreprecio,#nombreprecio a{
+	color: white;
+	background-color:#8080FB;
+	border-radius: 5px;
+}
+	
 #imagenCabecera
 {
     margin: auto;
@@ -32,12 +44,14 @@ body
 .principal_galeria ul{
   overflow: auto;
   align-self: center;
+  
 }
 .principal_galeria li{
+  display:block;
   align-self: center;
   float:left;
   width: 25%;
-  margin: 0 auto;
+  margin-left: 5%;
 }
 .principal_galeria li a{
   text-decoration: none;
@@ -192,12 +206,15 @@ ul.menu li:active
 {
     clear: both;
     overflow: hidden;
+	background: lightgrey;
+	opacity: 0.9;
 }
 
 .footer .lista
 {
+	
     width:20%;
-    margin:80px;
+    margin:5%;
     font-size: 30px;
     float: left;
 }
@@ -206,8 +223,9 @@ ul.menu li:active
 {
     font-size: 15px;
 }
+
 #paypal{
-  margin-left: 60%;
+  margin-left: 45%;
   align-self: center;
 }
 .cuerpoPagina{
@@ -235,4 +253,60 @@ tr:nth-child(even) {
 th {
     background-color: #2E9AFE;
     color: white;
+}
+#formularioregistro{
+	color:white;
+}
+#formularioregistro{
+	padding: 0% 0% 0% 10%;
+	text-transform: uppercase;
+	color:white;
+}
+#formulariologin{
+	padding: 5% 0%;
+	text-align: center;
+	text-transform: uppercase;
+	color: white;
+	
+}
+#crearcuenta{
+	text-transform: Capitalize;
+	
+}	
+#formulariologin .logintexto, #formularioregistro .registrotexto{
+	background-color:lightblue;
+	width: 100px;
+	-webkit-transition: width 0.5s;
+	transition: width 0.5s;
+}
+#formulariologin .logintexto:focus, #formularioregistro .registrotexto{
+	
+	width:200px;
+	outline:0px;
+}
+#formulariologin input, #formularioregistro input,#formularioregistro select{
+	border-radius: 10px
+}	
+#formularioregistro select{
+	background-color:lightblue;
+}
+#formulariologin .botonlogin:hover, #formularioregistro .botonregistro:hover{
+	background: white;
+}
+#crearcuenta, .footer a{
+	text-decoration: none;
+	color: #2E9AFE;
+}
+#crearcuenta .texto{
+	text-align:center;
+}	
+#crearcuenta:hover, .footer a:hover{
+	text-decoration: underline;
+	color: #1E1BFF;
+}
+#formularioregistro select{
+	outline:0px;
+}	
+#formularioregistro select:hover{
+	outline:0px;
 }

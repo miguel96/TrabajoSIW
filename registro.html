@@ -11,19 +11,19 @@
 <body>
     ##cabecera##
 	##error##
-    <form action="controlador.php?accion=compruebaregistro" method="post" accept-charset="utf-8">
+    <form id="formularioregistro" action="controlador.php?accion=compruebaregistro" method="post" accept-charset="utf-8">
         <p>Email</p>
-        <input type="text" name="email" />
+        <input class="registrotexto" type="text" name="email" />
         <p>Contrase&ntildea</p>
-        <input type="password" name="contrasena" />
+        <input class="registrotexto" type="password" name="contrasena" />
 		<p>Vuelva a escribir la contrase&ntildea</p>
-        <input type="password" name="contrasena1" />
+        <input class="registrotexto" type="password" name="contrasena1" />
 		<p>Nombre</p>
-        <input type="text" name="nombre" />
+        <input class="registrotexto" type="text" name="nombre" />
 		<p>Apellido 1</p>
-		<input type="text" name="apellido1" />
+		<input class="registrotexto" type="text" name="apellido1" />
 		<p>Apellido 2</p>
-		<input type="text" name="apellido2" />
+		<input class="registrotexto" type="text" name="apellido2" />
 
 		<p>Sexo</p>
 		<select name="sexo" >
@@ -37,13 +37,14 @@
 		<br>
 		<div id="capapoblaciones"></div>
 		<p>Direcci&oacuten</p>
-        <input type="text" name="direccion" />
+        <input class="registrotexto" type="text" name="direccion" />
 
 		<p>C&oacutedigo Postal</p>
-		<input type="text" name="codpos"  />
+		<input class="registrotexto" type="text" name="codpos"  />
 		<br><br>
-        <input type="submit" value="Entrar">
+        <input class="botonregistro" type="submit" value="Entrar">
     </form>
+	<br>
 	##footer##
 </body>
 </html>

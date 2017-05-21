@@ -134,7 +134,7 @@
 				}
 				break;
 		  case "subir":
-				msubirimagen($_FILES["file"]["name"],$_FILES["file"]["tmp_name"]);
+				msubirimagen($_FILES["file"]["name"],$_FILES["file"]["tmp_name"],$_FILES["file"]["type"]);
 				break;
 			case "registro":
 				vmostrarregistro();
