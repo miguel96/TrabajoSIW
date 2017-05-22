@@ -272,7 +272,7 @@ function mmostrarpedido(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT Nombre,Descripcion,Precio,Stock FROM producto WHERE idProducto=?"))){
+  if (!($sentencia = $mysqli->prepare("SELECT p.Nombre,p.Descripcion,p.Precio,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.idProducto=? and p.idProducto=pi.idProducto limit 0,1"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -286,7 +286,7 @@ function mmostrarpedido(){
         if (!$sentencia->execute()) {
         echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
         }
-        if(!$sentencia->bind_result($resultados[$i]["Nombre"],$resultados[$i]["Descripcion"],$resultados[$i]["Precio"],$resultados[$i]["Stock"])){
+        if(!$sentencia->bind_result($resultados[$i]["Nombre"],$resultados[$i]["Descripcion"],$resultados[$i]["Precio"],$resultados[$i]["Stock"],$resultados[$i]["Imagen"])){
           echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
         }
         $sentencia->fetch();

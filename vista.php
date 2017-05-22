@@ -145,6 +145,7 @@ function vmostrarpedido($listadoproductos){
         $aux = $trozosproductos[1];
         $aux = str_replace("##nombre##", $producto["Nombre"], $aux);
         $aux = str_replace("##precio##", $producto["Precio"], $aux);
+        $aux = str_replace("##imagen##", "<img src=".$producto["Imagen"].">",$aux);
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
       }
