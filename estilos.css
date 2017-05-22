@@ -324,6 +324,7 @@ th
             transition: width .5s;
 
     background-color: lightblue;
+    text-align: center;
 }
 #formulariologin .logintexto:focus,
 #formularioregistro .registrotexto

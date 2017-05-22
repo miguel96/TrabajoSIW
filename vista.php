@@ -3,13 +3,20 @@ function cabecera($cadena){
   header("Content-Type: text/html; charset=iso-8859-1");
   $cabecera=file_get_contents("cabecera.html");
   $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
-  $cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
-  $cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Mis valoraciones</a>",$cabecera);
   $cabecera=str_replace("##carrito##","<a href='controlador.php?accion=pedido'>Carrito</a>",$cabecera);
-  if (cislogged()){
+  if (cislogged() and cisadmin()){
+	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Ver pedidos</a>",$cabecera);
+	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Ver valoraciones</a>",$cabecera);
+    $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
+  }
+  else if(cislogged()){
+	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
+	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Mis valoraciones</a>",$cabecera);
     $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
   }
   else{
+	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
+	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Mis valoraciones</a>",$cabecera);
     $cabecera=str_replace("##login##","<a href='controlador.php?accion=login'>Iniciar Sesi&oacuten</a>",$cabecera);
   }
   $cadena=str_replace("##cabecera##",$cabecera,$cadena);
@@ -20,6 +27,29 @@ function footer($cadena){
 	$footer=file_get_contents("footer.html");
 	$cadena=str_replace("##footer##",$footer,$cadena);
 	return $cadena;
+}
+function vmostrarbusqueda($busqueda){
+  print_r($busqueda);
+	$cadena = file_get_contents("principal.html");
+	$cadena = str_replace("##Titulo##","Rufocube",$cadena);
+	$cadena = str_replace("Productos Destacados","Resultado busqueda",$cadena);
+	$cadena = cabecera($cadena);
+	$trozos = explode("##productos##", $cadena);
+	$cuerpo = "";
+
+	if ($busqueda="")
+		echo "Lo siento, no se han encontrado datos para su busqueda.";
+	else{
+		foreach((array)$busqueda as $datos){
+			$aux = $trozos[1];
+			$aux = str_replace("##linkProducto##","controlador.php?accion=producto&id=".$datos["IdProducto"],$aux);
+			$aux = str_replace("##foto##", $datos["Imagen"], $aux);
+			$aux = str_replace("##nombre##", $datos["Nombre"], $aux);
+			$aux = str_replace("##precio##", $datos["Precio"] , $aux);
+			$cuerpo .= $aux;
+		}
+		echo $trozos[0] . $cuerpo . $trozos[2];
+	}
 }
 function vmostrarproducto($listadoproducto,$listadoreviews){
   //Vamos a montar el html
@@ -153,8 +183,8 @@ function vpagarpaypal($precio){
 //Codigo de ruben
   function vmostrarlistadoproductos($consulta){
 		$cadena = file_get_contents("principal.html");
-    $cadena = str_replace("##Titulo##","Rufocube",$cadena);
-    $cadena = cabecera($cadena);
+		$cadena = str_replace("##Titulo##","Rufocube",$cadena);
+		$cadena = cabecera($cadena);
 		$trozos = explode("##productos##", $cadena);
 		$cuerpo = "";
 		while($fila = mysqli_fetch_assoc($consulta)){

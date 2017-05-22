@@ -1,4 +1,41 @@
 <?php
+function mbuscar($busqueda){
+	$servidor ="127.0.0.1";
+    $usuario="siw06";
+    $password="asahwaeche";
+    $dbname="db_siw06";
+    //Conectamos
+    $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+    if($mysqli->connect_errno){
+      die("Conexion fallida:" .$mysqli->connect_error.".\n");
+    }
+		$busqueda="'%".$busqueda."%'";
+    //Preparamos la consulta
+		$i=0;
+    if (!($sentencia = $mysqli->prepare("SELECT p.idProducto,p.nombre,p.precio, pi.Imagen FROM producto p, productosimagenes pi
+											WHERE p.idProducto=pI.idProducto AND (p.nombre LIKE ? OR p.descripcion LIKE ?)"))){
+      ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+    }
+		if (!$sentencia->bind_param("ss",$busqueda,$busqueda)) {
+		echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    if (!$sentencia->execute()) {
+		echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+    if(!$sentencia->bind_result($resultados[$i]["IdProducto"],$resultados[$i]["Nombre"],$resultados[$i]["Precio"],$resultados[$i]["Imagen"])){
+      echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+    }
+	$resultados="";
+	while($sentencia->fetch()){
+			echo "voy";
+      $i=$i+1;
+	}
+	echo $i;
+    $sentencia->close();
+    //Devolvemos el producto
+    mysqli_close($mysqli);
+    return $resultados;
+}
 function mmostrarproducto(){
     $id = $_GET["id"];
     //Codigo para coger info de bbdd
@@ -58,11 +95,51 @@ function mmostrarreviewsproducto(){
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
-      $resultados[$i]=$resultado;
+      $resultados[$i]["Titulo"]=$resultado["Titulo"];
+			$resultados[$i]["Valoracion"]=$resultado["Valoracion"];
+			$resultados[$i]["Comentario"]=$resultado["Comentario"];
+			$resultados[$i]["Imagen"]=$resultado["Imagen"];
+			$resultados[$i]["Nombre"]=$resultado["Nombre"];
+			$resultados[$i]["apellido1"]=$resultado["apellido1"];
+			$resultados[$i]["apellido2"]=$resultado["apellido2"];
       $i=$i+1;
   }
   $sentencia->close();
   //Devolvemos el producto
+  mysqli_close($mysqli);
+  return $resultados;
+}
+function mmostrarreviewsadmin(){
+  //Codigo para coger info de bbdd
+  $servidor="127.0.0.1";
+  $usuario="siw06";
+  $password="asahwaeche";
+  $dbname="db_siw06";
+  //Conectamos
+  $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+  if($mysqli->connect_errno){
+    die("Conexion fallida:" .$mysqli->connect_error.".\n");
+  }
+  if (!($sentencia = $mysqli->prepare("SELECT Titulo,Valoracion,Comentario,Imagen,Nombre FROM reviews R, producto P WHERE R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
+    ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+  }
+  if (!$sentencia->execute()) {
+  echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+  }
+  if(!$sentencia->bind_result($resultado["Titulo"],$resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"])){
+    echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+  }
+  $i=0;
+  $resultados="";
+  while($sentencia->fetch()){
+		$resultados[$i]["Titulo"]=$resultado["Titulo"];
+		$resultados[$i]["Valoracion"]=$resultado["Valoracion"];
+		$resultados[$i]["Comentario"]=$resultado["Comentario"];
+		$resultados[$i]["Imagen"]=$resultado["Imagen"];
+		$resultados[$i]["Nombre"]=$resultado["Nombre"];
+  	$i=$i+1;
+  }
+  $sentencia->close();
   mysqli_close($mysqli);
   return $resultados;
 }
@@ -93,10 +170,49 @@ function mmostrarreviewsusuario($id){
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
-      $resultados[$i]=$resultado;
+			$resultados[$i]["Titulo"]=$resultado["Titulo"];
+			$resultados[$i]["Valoracion"]=$resultado["Valoracion"];
+			$resultados[$i]["Comentario"]=$resultado["Comentario"];
+			$resultados[$i]["Imagen"]=$resultado["Imagen"];
+			$resultados[$i]["Nombre"]=$resultado["Nombre"];
       $i=$i+1;
   }
   $sentencia->close();
+  mysqli_close($mysqli);
+  return $resultados;
+}
+function mmostrarpedidoadmin(){
+//Buscamos la id en la sesion o en la url, si no no mostramos nada
+  //Codigo para coger info de bbdd
+  $servidor="127.0.0.1";
+  $usuario="siw06";
+  $password="asahwaeche";
+  $dbname="db_siw06";
+  //Conectamos
+  $mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+  if($mysqli->connect_errno){
+    die("Conexion fallida:" .$mysqli->connect_error.".\n");
+  }
+  if (!($sentencia = $mysqli->prepare("SELECT estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto GROUP BY fecha,estado,p.idPedido ORDER BY fecha"))){
+    ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+  }
+  if (!$sentencia->execute()) {
+  echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+  }
+  if(!$sentencia->bind_result($resultado["estado"],$resultado["fecha"],$resultado["precio"],$resultado["idPedido"])){
+    echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+  }
+  $i=0;
+  $resultados="";
+  while($sentencia->fetch()){
+      //Si copiamos el array de golpe se pasa por referencia
+			$resultados[$i]["estado"]=$resultado["estado"];
+			$resultados[$i]["fecha"]=$resultado["fecha"];
+			$resultados[$i]["precio"]=$resultado["precio"];
+			$resultados[$i]["idPedido"]=$resultado["idPedido"];
+      $i=$i+1;
+  }
+
   mysqli_close($mysqli);
   return $resultados;
 }
@@ -115,7 +231,7 @@ function mmostrarpedidosusuario($id){
   }
   if (!($sentencia = $mysqli->prepare("SELECT estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND p.idUsuario=? GROUP BY fecha,estado,p.idPedido ORDER BY fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
-  }
+  };
   if (!$sentencia->bind_param("i",$id)) {
   echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
   }
@@ -128,11 +244,11 @@ function mmostrarpedidosusuario($id){
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
-      //Si copiamos el array de golpe se pasa por referencia al ser una subconsulta
-      $resultados[$i]["estado"]=$resultado["estado"];
-      $resultados[$i]["fecha"]=$resultado["fecha"];
-      $resultados[$i]["precio"]=$resultado["precio"];
-      $resultados[$i]["idPedido"]=$resultado["idPedido"];
+      //Si copiamos el array de golpe se pasa por referencia
+			$resultados[$i]["estado"]=$resultado["estado"];
+			$resultados[$i]["fecha"]=$resultado["fecha"];
+			$resultados[$i]["precio"]=$resultado["precio"];
+			$resultados[$i]["idPedido"]=$resultado["idPedido"];
       $i=$i+1;
   }
 
@@ -293,7 +409,7 @@ function mmostrarproductospedidoid($id){
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
-      //Si copiamos el array de golpe se pasa por referencia al ser una subconsulta
+      //Si copiamos el array de golpe se pasa por referencia
       $resultados['productos'][$i]["Nombre"]=$resultado["Nombre"];
       $resultados['productos'][$i]["Descripcion"]=$resultado["Descripcion"];
       $resultados['productos'][$i]["Precio"]=$resultado["Precio"];
@@ -517,4 +633,31 @@ function mmostrarproductospedidoid($id){
 
 		}
 	}
+		function misadmin($email){
+			$servidor="127.0.0.1";
+			$usuario="siw06";
+			$password="asahwaeche";
+			$dbname="db_siw06";
+			$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+			if(!$mysqli){
+				die("Conexion fallida:" .mysqli_connect_error);
+			}
+			if (!($sentencia = $mysqli->prepare("SELECT Admin from usuarios WHERE idUsuario=?"))){
+				ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+			}
+			//Preparamos la consulta
+			if (!$sentencia->bind_param("s",$email)) {
+				echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if (!$sentencia->execute()) {
+				echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if(!$sentencia->bind_result($resultado)){
+				echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+
+			$sentencia->fetch();
+			return $resultado==1;
+		}
+
 ?>

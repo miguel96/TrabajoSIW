@@ -21,6 +21,12 @@
 		}
 	}
 	switch ($accion) {
+		case "buscar":
+			if (isset($_POST["buscar"]))
+				vmostrarbusqueda(mbuscar($_POST["buscar"]));
+			else
+				vmostrarlistadoproductos(mcontarproductos(),mlistadoproductos());
+			break;
 		case "producto":
 			vmostrarproducto(mmostrarproducto(),mmostrarreviewsproducto());
 			break;
@@ -29,7 +35,10 @@
 		$user=$_SESSION["Usuario"];
 		if(!filter_var($user,FILTER_VALIDATE_INT)===false){
 			$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
-			if(mestalogin($user,$password))
+			if(mestalogin($user,$password) and misadmin($user)){
+				vmostrarmisvaloraciones(mmostrarreviewsadmin());
+			}	
+			else if(mestalogin($user,$password))
 				vmostrarmisvaloraciones(mmostrarreviewsusuario($user));
 			else{
 				header('Location:controlador.php?accion=login');
@@ -40,13 +49,19 @@
 		}
 			break;
 		case "mispedidos":
-		  session_start();
+			session_start();
 			$user=$_SESSION["Usuario"];
 			if(!filter_var($user,FILTER_VALIDATE_INT)===false){
 				$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
-				if(mestalogin($user,$password))
+				
+					
+				if(mestalogin($user,$password)){
+					if (misadmin($user))
+						vmostrarmispedidos(mmostrarpedidoadmin());
+					else
 					vmostrarmispedidos(mmostrarpedidosusuario($user));
-			  else{
+				}
+				else{
 						header('Location:controlador.php?accion=login');
 				}
 		 	}
@@ -193,4 +208,12 @@
 			}
 			return false;
 		}
+		function cisadmin(){
+			if(cislogged()){
+				return misadmin($_SESSION["Usuario"]);
+			}
+			else 
+				return false;
+		}	
+		
 ?>
