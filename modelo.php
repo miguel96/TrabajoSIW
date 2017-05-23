@@ -175,19 +175,18 @@ function mmostrarreviewsadmin(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT Titulo,Valoracion,Comentario,Imagen,Nombre FROM reviews R, producto P WHERE R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre FROM reviews R, producto P WHERE R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->execute()) {
   echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
   }
-  if(!$sentencia->bind_result($resultado["Titulo"],$resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"])){
+  if(!$sentencia->bind_result($resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"])){
     echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
   }
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
-		$resultados[$i]["Titulo"]=$resultado["Titulo"];
 		$resultados[$i]["Valoracion"]=$resultado["Valoracion"];
 		$resultados[$i]["Comentario"]=$resultado["Comentario"];
 		$resultados[$i]["Imagen"]=$resultado["Imagen"];
@@ -210,7 +209,7 @@ function mmostrarreviewsusuario($id){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT Titulo,Valoracion,Comentario,Imagen,Nombre FROM reviews R, producto P WHERE IdUsuario=? AND R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre FROM reviews R, producto P WHERE IdUsuario=? AND R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->bind_param("i",$id)) {
@@ -219,13 +218,12 @@ function mmostrarreviewsusuario($id){
   if (!$sentencia->execute()) {
   echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
   }
-  if(!$sentencia->bind_result($resultado["Titulo"],$resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"])){
+  if(!$sentencia->bind_result($resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"])){
     echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
   }
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
-			$resultados[$i]["Titulo"]=$resultado["Titulo"];
 			$resultados[$i]["Valoracion"]=$resultado["Valoracion"];
 			$resultados[$i]["Comentario"]=$resultado["Comentario"];
 			$resultados[$i]["Imagen"]=$resultado["Imagen"];
