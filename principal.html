@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device−width, initial−scale=1.0" />
+    <!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
     <link rel="stylesheet" href="estilos.css">
     <title>##Titulo##</title>
 </head>
@@ -11,16 +13,16 @@
     <br>
 	<div class="principal_galeria">
 	<br>
-	<form action="controlador.php?accion=buscar" method="post">
-		<input class="buscar" type="search" name="buscar">
+	<form action="controlador.php?accion=buscar" method="post" class="buscador">
+		<input class="buscar" type="text" name="buscar" placeholder="Search...">
 	</form>
 	<br>
-    
+
     <h1>Productos Destacados:</h1>
         <ul>
             ##productos##
             <li id="principalproducto">
-                <a id="foto" href="##linkProducto##"><img src="##foto##"/></a>
+                <a class="foto" href="##linkProducto##"><img class="foto" src="##foto##" /></a>
 				<div id="nombreprecio">
                 <a id="nombre" href="##linkProducto##"><p>##nombre##</p></a>
                 <p>##precio##</p>

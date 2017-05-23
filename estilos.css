@@ -1,11 +1,8 @@
-
 html
 {
     background: url(imagenes/rubiks-cube.png) no-repeat center center fixed;
     -webkit-background-size: cover;
-
             background-size: cover;
-
 }
 h1
 {
@@ -14,7 +11,7 @@ h1
 
     text-align: center;
 
-    color: #black;
+    color: black;
 }
 body
 {
@@ -29,22 +26,47 @@ body
 #nombreprecio,
 #nombreprecio a
 {
+    text-align: center;
+
     color: white;
     border-radius: 5px;
     background-color: #8080fb;
-    text-align: center;
 }
 
 #imagenCabecera
 {
     margin: auto;
 }
+.buscar
+{
+    display: inline-block;
 
+    width: 450px;
+    height: 25px;
+    margin: 15px;
+    padding: 5px;
+
+    border-radius: 20px;
+    outline: 0;
+    background-image: url(imagenes/lupa.png);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 26px 26px;
+}
+.buscar:focus
+{
+    background-image: none;
+}
+.buscar:focus::-webkit-input-placeholder
+{
+    opacity: 0;
+}
 .principal_galeria
 {
-  background-color: white;
-  opacity: .95;
     float: left;
+
+    opacity: .95;
+    background-color: white;
 }
 .principal_galeria ul
 {
@@ -58,7 +80,7 @@ body
     float: left;
 
     width: 25%;
-    margin-left: 5%;
+    margin-left: 2%;
 
     align-self: center;
 }
@@ -66,6 +88,10 @@ body
 {
     font-size: 20px;
     font-stretch: extra-expanded;
+
+    overflow: auto;
+
+    width: 25%;
 
     text-decoration: none;
 
@@ -88,6 +114,7 @@ body
     font-weight: bold;
 
     float: left;
+
     margin: 0;
     padding: 0;
 
@@ -115,10 +142,12 @@ body
     float: left;
     overflow: auto;
 }
-.descripcionProducto{
-  overflow-y: auto;
-  margin-top:1.5%;
-  margin-left:1.5%;
+.descripcionProducto
+{
+    overflow-y: auto;
+
+    margin-top: 1.5%;
+    margin-left: 1.5%;
 }
 .botonComentario
 {
@@ -152,19 +181,9 @@ body
 {
     color: white;
 }
-
-.comentarios
+.buscador
 {
-    float: right;
-}
-
-.comentarios p
-{
-    font-size: 20px;
-
-    float: left;
-
-    margin-right: auto;
+    width: auto;
 }
 
 ul
@@ -174,9 +193,10 @@ ul
 
 ul.menu
 {
-    display: flex;
+    display: inline-block;
     overflow: hidden;
 
+    width: 100%;
     margin: auto;
     padding: 0;
 
@@ -217,7 +237,8 @@ ul.menu li:hover
 
 ul.menu li:active
 {
-    border: 1px dashed #7c7c7c;
+    background: grey;
+    border:1px black;
 }
 
 .footer
@@ -253,14 +274,14 @@ ul.menu li:active
 .cuerpoPagina
 {
     clear: both;
-    background-color: white;
-    opacity: 0.9;
     overflow: auto;
+
+    opacity: .9;
+    background-color: white;
 }
 .cuerpoPagina table
 {
     margin: 0 auto;
-
 }
 th,
 td
@@ -270,8 +291,9 @@ td
 table
 {
     width: 70%;
+
+    opacity: .9;
     background-color: white;
-    opacity: 0.9;
 }
 th
 {
@@ -294,11 +316,14 @@ th
 #formularioregistro
 {
     padding: 2% 0 6% 10%;
-    background-color: white;
-    opacity: 0.9;
+
     text-transform: uppercase;
-    column-count: 2;
+
+    opacity: .9;
     color: black;
+    background-color: white;
+
+    column-count: 2;
 }
 #formulariologin
 {
@@ -306,9 +331,10 @@ th
 
     text-align: center;
     text-transform: uppercase;
-    background-color: white;
-    opacity: 0.9;
+
+    opacity: .9;
     color: black;
+    background-color: white;
 }
 #crearcuenta
 {
@@ -322,9 +348,9 @@ th
 
     -webkit-transition: width .5s;
             transition: width .5s;
+    text-align: center;
 
     background-color: lightblue;
-    text-align: center;
 }
 #formulariologin .logintexto:focus,
 #formularioregistro .registrotexto
@@ -354,18 +380,24 @@ th
 
     color: #2e9afe;
 }
-#crearcuenta {
-  color: black;
-  background-color: white;
-  border-radius: 10px;
-  text-decoration: none;
-  border: 2px solid grey;
+#crearcuenta
+{
+    text-decoration: none;
+
+    color: black;
+    border: 2px solid grey;
+    border-radius: 10px;
+    background-color: white;
 }
 .footer a:hover
 {
     text-decoration: underline;
 
     color: #1e1bff;
+}
+.foto
+{
+    overflow: auto;
 }
 #formularioregistro select
 {
@@ -375,8 +407,165 @@ th
 {
     outline: 0;
 }
-.listaProducto{
-  background-color: white;
-  opacity: 0.9;
-  overflow: auto;
+.listaProducto
+{
+    overflow: auto;
+
+    opacity: .9;
+    background-color: white;
+}
+
+
+/************************************************************************************
+MEDIA QUERIES
+*************************************************************************************/
+/* para 980px o menos */
+@media screen and (max-width: 1230px)
+{
+    .principal_galeria li
+    {
+        width: 48%;
+    }
+
+    #nombreprecio
+    {
+        clear: left;
+
+        width: auto;
+        margin-right: 5px;
+
+        align-self: center;
+    }
+    .foto
+    {
+        align-self: center;
+    }
+}
+
+/* para 700px o menos */
+@media screen and (max-width: 700px)
+{
+    .footer .lista
+    {
+        clear: both;
+    }
+    .principal_galeria li
+    {
+        width: 100%;
+    }
+    #formularioregistro{
+      column-count: 1;
+    }
+    #nombreprecio
+    {
+        clear: both;
+
+        width: 50%;
+
+        align-self: center;
+    }
+    .foto
+    {
+        overflow: visible;
+
+        width: 50%;
+    }
+    ul.menu
+    {
+        display: block;
+        float: left;
+        overflow: hidden;
+
+        width: 50%;
+        margin-bottom: 10px;
+        padding: 0;
+
+        list-style: none;
+
+        border: 1px solid #7c7c7c;
+        background: #f4f4f4;
+    }
+    .buscar
+    {
+        width: 70%;
+    }
+    ul.menu li
+    {
+        display: block;
+        float: none;
+
+        width: auto;
+    }
+    .listaProducto,
+    .producto1,
+    .producto2,.descripcionProducto,#formulariologin,#formularioregistro
+    {
+        clear: left;
+    }
+    .comentarios
+    {
+        float: none;
+    }
+}
+
+/* para 480px o menos */
+@media screen and (max-width: 480px)
+{
+    .principal_galeria
+    {
+        float: none;
+        clear: both;
+    }
+    .foto
+    {
+        overflow: visible;
+
+        width: 70%;
+    }
+    ul .menu li:active{
+      border: 0;
+    }
+    table,
+    tr,
+    td,
+    th
+    {
+        display: block;
+    }
+    table
+    {
+        margin: auto;
+    }
+    tr
+    {
+        margin: 10px;
+    }
+    th
+    {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+
+        visibility: hidden;
+
+        height: 0;
+        margin: 0;
+    }
+    .listaProducto,
+    .producto1,
+    .producto2
+    {
+        width: 90%;
+    }
+    .imagenProducto
+    {
+        width: 70%;
+    }
+    .botonComentario
+    {
+        float: none;
+        clear: both;
+
+        width: auto;
+    }
 }

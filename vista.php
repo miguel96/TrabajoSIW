@@ -60,7 +60,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
   $cadena = str_replace("##precio##", $listadoproducto["Precio"], $cadena);
   $cadena = str_replace("##descripcion##", $listadoproducto["Descripcion"], $cadena);
   $cadena = str_replace("##cantidad##", $listadoproducto["Stock"], $cadena);
-  $cadena = str_replace("##imagen##","<img src=".$listadoproducto["Imagen"].">",$cadena);
+  $cadena = str_replace("##imagen##","<img src=".$listadoproducto["Imagen"]." class=\"foto\">",$cadena);
   //TODO hacer funcion comentarios y reemplazar link
   $cadena = str_replace("##addComentario##","<a href=controlador.php?accion=producto&id=1>Deja tu comentario</a>",$cadena);
   //Bucle para montar los comentarios
@@ -145,7 +145,7 @@ function vmostrarpedido($listadoproductos){
         $aux = $trozosproductos[1];
         $aux = str_replace("##nombre##", $producto["Nombre"], $aux);
         $aux = str_replace("##precio##", $producto["Precio"], $aux);
-        $aux = str_replace("##imagen##", "<img src=".$producto["Imagen"].">",$aux);
+        $aux = str_replace("##imagen##", "<img src=".$producto["Imagen"],$aux);
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
       }
