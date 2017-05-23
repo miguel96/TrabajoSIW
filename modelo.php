@@ -1,4 +1,24 @@
 <?php
+function msavecomentario($formulario){
+	$servidor ="127.0.0.1";
+	$usuario="siw06";
+	$password="asahwaeche";
+	$dbname="db_siw06";
+	$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+	if($mysqli->connect_errno){
+		die("Conexion fallida:" .$mysqli->connect_error.".\n");
+	}
+	//Preparamos la consulta
+	if (!($sentencia = $mysqli->prepare('INSERT INTO reviews (IdUsuario,IdProducto,Valoracion,Comentario) VALUES (?, ?, ?,?)'))){
+		ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	if (!$sentencia->bind_param("iiis",$formulario["idUsuario"],$formulario["idProducto"],$formulario["valoracion"],$formulario["comentario"])) {
+	echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	if (!$sentencia->execute()) {
+	echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+}
 function mgaleria($id){
 	$id = $_GET["id"];
 	//Codigo para coger info de bbdd
@@ -116,7 +136,7 @@ function mmostrarreviewsproducto(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT Titulo,Valoracion,Comentario,Imagen,Nombre,apellido1,apellido2 FROM reviews R, usuarios U WHERE IdProducto=? AND R.IdUsuario=U.IdUsuario "))){
+  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre,apellido1,apellido2 FROM reviews R, usuarios U WHERE IdProducto=? AND R.IdUsuario=U.IdUsuario "))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->bind_param("i",$id)) {
@@ -125,13 +145,12 @@ function mmostrarreviewsproducto(){
   if (!$sentencia->execute()) {
   echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
   }
-  if(!$sentencia->bind_result($resultado["Titulo"],$resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"],$resultado["apellido1"],$resultado["apellido2"])){
+  if(!$sentencia->bind_result($resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"],$resultado["apellido1"],$resultado["apellido2"])){
     echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
   }
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
-      $resultados[$i]["Titulo"]=$resultado["Titulo"];
 			$resultados[$i]["Valoracion"]=$resultado["Valoracion"];
 			$resultados[$i]["Comentario"]=$resultado["Comentario"];
 			$resultados[$i]["Imagen"]=$resultado["Imagen"];

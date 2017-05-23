@@ -195,7 +195,30 @@
 		case "galeria":
 			vgaleria(mgaleria($id),$id);
 			break;
-			default:
+		case "comentario":
+			vmostrarcomentario($id);
+			break;
+		case "registraComentario":
+			$formulario=array("idProducto"=>$_POST["id"],"valoracion"=>$_POST["valoracion"],"comentario"=>$_POST["comentario"]);
+			if(!isset($_SESSION))
+				session_start();
+			$formulario["idUsuario"]=$_SESSION["Usuario"];
+			print_r($formulario);
+			if(!filter_var($formulario["idUsuario"],FILTER_VALIDATE_INT)===false){
+				$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
+				if(mestalogin($formulario["idUsuario"],$password)){
+					msavecomentario($formulario);
+					header('Location:controlador.php?accion=producto&id='.$formulario["idProducto"]);
+				}
+				else{
+						header('Location:controlador.php?accion=login');
+				}
+			}
+			else {
+				header('Location:controlador.php?accion=login');
+		}
+		break;
+		default:
 				vmostrarlistadoproductos(mlistadoproductos());
 				break;
 

@@ -28,6 +28,14 @@ function footer($cadena){
 	$cadena=str_replace("##footer##",$footer,$cadena);
 	return $cadena;
 }
+function vmostrarcomentario($id){
+  $cadena=file_get_contents("comentario.html");
+  $cadena=cabecera($cadena);
+  $cadena=str_replace("##titulo##","Rufocube-Comentario",$cadena);
+  $cadena=str_replace("##id##",$id,$cadena);
+  echo $cadena;
+
+}
 function vgaleria($imagenes,$id){
   $cadena=file_get_contents("galeria.html");
   $cadena=cabecera($cadena);
@@ -83,7 +91,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
   $cadena = str_replace("##cantidad##", $listadoproducto["Stock"], $cadena);
   $cadena = str_replace("##imagen##","<a href=controlador.php?accion=galeria&id=".$listadoproducto["id"]."><img src=".$listadoproducto["Imagen"]." class=\"foto\"></a>",$cadena);
   //TODO hacer funcion comentarios y reemplazar link
-  $cadena = str_replace("##addComentario##","<a href=controlador.php?accion=producto&id=1>Deja tu comentario</a>",$cadena);
+  $cadena = str_replace("##addComentario##","<a href=controlador.php?accion=comentario&id=1>Deja tu comentario</a>",$cadena);
   //Bucle para montar los comentarios
   $comentarios="";
   $trozoscomentarios = explode("##comentario##", $cadena);

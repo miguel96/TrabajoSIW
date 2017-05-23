@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device−width, initial−scale=1.0" />
+    <!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
+    <link rel="stylesheet" href="estilos.css">
+    <title>##titulo##</title>
+</head>
+<script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+<body>
+    ##cabecera##
+  <br><br>
+  <div class="cuerpoPagina">
+    <h1>Escribe tu comentario</h1>
+    <form id="formularioregistro" action="controlador.php?accion=registraComentario" method="post" accept-charset="utf-8">
+        <div clas="campoFormulario">
+        <p>Comentario:</p>
+        <p><textarea class="textoLargo" name="comentario" placeholder="Comentario" rows="20" cols="50"> </textarea></p>
+      </div><div clas="campoFormulario">
+        <p>Valoraci&oacuten:</p>
+        <input class="numeroForm" type="number" name="valoracion" min="0" max="5" step="1" value="5"/>
+        </div>
+      <input type="hidden" name="id" value="##id##">
+		<br><br>
+        <input class="botonregistro" type="submit" value="Comentar">
+    </form>
+    </div>
+	<br>
+	##footer##
+</body>
+</html>
