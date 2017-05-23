@@ -39,13 +39,13 @@ body
 }
 .buscar
 {
-    display: inline-block;
+    
 
-    width: 450px;
+    width: 25%;
     height: 25px;
     margin: 15px;
     padding: 5px;
-
+	float: right;
     border-radius: 20px;
     outline: 0;
     background-image: url(imagenes/lupa.png);
@@ -63,7 +63,8 @@ body
 }
 .principal_galeria
 {
-    float: left;
+	display: inline-block;
+    text-align: center;
 
     opacity: .95;
     background-color: white;
