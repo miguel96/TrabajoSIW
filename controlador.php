@@ -37,7 +37,7 @@
 			$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
 			if(mestalogin($user,$password) and misadmin($user)){
 				vmostrarmisvaloraciones(mmostrarreviewsadmin());
-			}	
+			}
 			else if(mestalogin($user,$password))
 				vmostrarmisvaloraciones(mmostrarreviewsusuario($user));
 			else{
@@ -53,8 +53,8 @@
 			$user=$_SESSION["Usuario"];
 			if(!filter_var($user,FILTER_VALIDATE_INT)===false){
 				$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
-				
-					
+
+
 				if(mestalogin($user,$password)){
 					if (misadmin($user))
 						vmostrarmispedidos(mmostrarpedidoadmin());
@@ -192,10 +192,15 @@
 		case "actualizacuenta":
 				//TODO actualiza la informacion de la cuenta
 			break;
+		case "galeria":
+			vgaleria(mgaleria($id),$id);
+			break;
 			default:
 				vmostrarlistadoproductos(mlistadoproductos());
 				break;
+
 		}
+
 		function cislogged(){
 			if(!isset($_SESSION))
 				session_start();
@@ -212,8 +217,8 @@
 			if(cislogged()){
 				return misadmin($_SESSION["Usuario"]);
 			}
-			else 
+			else
 				return false;
-		}	
-		
+		}
+
 ?>

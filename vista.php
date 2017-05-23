@@ -28,10 +28,31 @@ function footer($cadena){
 	$cadena=str_replace("##footer##",$footer,$cadena);
 	return $cadena;
 }
+function vgaleria($imagenes,$id){
+  $cadena=file_get_contents("galeria.html");
+  $cadena=cabecera($cadena);
+  $cadena=str_replace("##titulo##","Rufocube-galer&iacutea",$cadena);
+  $cadena=str_replace("##id##",$id,$cadena);
+  $cadena=str_replace("##imagen1##",str_replace("_peq","_med",$imagenes[0]),$cadena);
+  $cadena=str_replace("##imagen3##",str_replace("_peq","_grande",$imagenes[0]),$cadena);
+  $trozos = explode("##imgPeq##", $cadena);
+	$cuerpo = "";
+  $i=0;
+  foreach ($imagenes as $imagen) {
+    $aux=$trozos[1];
+    $aux=str_replace("##imagen2##",$imagen,$aux);
+    $aux=str_replace("##nImg##",$i,$aux);
+    $cuerpo.=$aux;
+    $i+=1;
+  }
+  $trozos[0]=str_replace("##nImgs##",$i,$trozos[0]);
+
+  echo $trozos[0] . $cuerpo . $trozos[2];
+}
 function vmostrarbusqueda($busqueda){
   print_r($busqueda);
 	$cadena = file_get_contents("principal.html");
-	$cadena = str_replace("##Titulo##","Rufocube",$cadena);
+	$cadena = str_replace("##titulo##","Rufocube",$cadena);
 	$cadena = str_replace("Productos Destacados","Resultado busqueda",$cadena);
 	$cadena = cabecera($cadena);
 	$trozos = explode("##productos##", $cadena);
@@ -60,7 +81,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
   $cadena = str_replace("##precio##", $listadoproducto["Precio"], $cadena);
   $cadena = str_replace("##descripcion##", $listadoproducto["Descripcion"], $cadena);
   $cadena = str_replace("##cantidad##", $listadoproducto["Stock"], $cadena);
-  $cadena = str_replace("##imagen##","<img src=".$listadoproducto["Imagen"]." class=\"foto\">",$cadena);
+  $cadena = str_replace("##imagen##","<a href=controlador.php?accion=galeria&id=".$listadoproducto["id"]."><img src=".$listadoproducto["Imagen"]." class=\"foto\"></a>",$cadena);
   //TODO hacer funcion comentarios y reemplazar link
   $cadena = str_replace("##addComentario##","<a href=controlador.php?accion=producto&id=1>Deja tu comentario</a>",$cadena);
   //Bucle para montar los comentarios

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device−width, initial−scale=1.0" />
+	<!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
+	<link rel="stylesheet" href="estilos.css">
+  <script src="galeria.js"></script>
+  <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+
+	<title>##titulo##</title>
+</head>
+<body onload="start(##nImgs##)">
+	##cabecera##
+  <br><br>
+  <div class="cuerpoPagina">
+    <div id="telon" class="overlay"></div>
+    <div id="contenedorImagenGrande" class="imagenGrande">
+      <img src="imagenes/cerrar.jpg" class="cerrar" onclick="cerrarGrande()">
+      <img src="imagenes/flecha_izq.png" class="flecha" id="flechaizq" onclick="clickedIzquierda()">
+      <img src="##imagen3##" class="imagenGrande" id="imagenGrande">
+      <img src="imagenes/flecha_der.png" class="flecha" id="flechader" onclick="clickedDerecha()">
+    </div>
+    <div id="imgCerrar">
+      <a href="controlador.php?accion=producto&id=##id##"><img src="imagenes/cerrar.jpg"></a>
+    </div>
+    <div class="imagenMediana">
+      <img src="##imagen1##" class="imagenMediana" id="imagenMediana"  onclick="setGrande()">
+    </div>
+    <div class="imagenesPequenas">
+      <ul>
+      ##imgPeq##
+      <li>
+        <img src="##imagen2##" class="imagenPequena" id="##nImg##" onclick="setMediana('##imagen2##',##nImg##)" >
+      </li>
+      ##imgPeq##
+      </ul>
+  </div>
+  </div>
+  <br>
+  ##footer##
+</body>

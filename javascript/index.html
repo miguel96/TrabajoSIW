@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Javascript</title>
+</head>
+
+<style type="text/css">
+	
+	#capa {
+		background-color: blue;
+		width: 200px;
+		cursor: hand;
+	}
+
+	#texto {
+
+	}
+
+</style>
+
+<script type="text/javascript" src="fichero.js"></script>
+
+<script type="text/javascript">
+	
+	function prueba() {
+		//document.getElementById("capa").innerHTML = "juanito";	
+	}
+
+	function prueba2() {
+		alert ("me has pinchado");
+	}
+	
+</script>
+
+<body onload="prueba();">
+	<div id="capa" onclick="alert('hola');">
+		Pepe <span onclick="prueba2();" id="texto">como</span> estas
+	</div>
+
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
