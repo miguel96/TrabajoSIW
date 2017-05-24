@@ -289,12 +289,13 @@ ul
     list-style: none;
 }
 
+
 ul.menu
 {
     display: inline-block;
     overflow: hidden;
 
-    width: 100%;
+    width: 95%;
     margin: auto;
     padding: 0;
 
@@ -568,9 +569,19 @@ MEDIA QUERIES
 /* para 700px o menos */
 @media screen and (max-width: 700px)
 {
+  body{
+    padding: 0;
+  }
+    .cuerpoPagina{
+      padding: 0;
+      margin:0;
+    }
     .footer .lista
     {
         clear: both;
+    }
+    table{
+      width:100%;
     }
     .principal_galeria li
     {
