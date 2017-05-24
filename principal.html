@@ -6,34 +6,22 @@
     <meta name="viewport" content="width=device−width, initial−scale=1.0" />
     <!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
     <link rel="stylesheet" href="estilos.css">
+    <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+    <script type="text/javascript" src="busquedas_principal.js"></script>
     <title>##Titulo##</title>
 </head>
-<body>
+<body onload="buscar()">
     ##cabecera##
     <br>
 	<div class="principal_galeria">
 	<br>
-	<form action="controlador.php?accion=buscar" method="post" class="buscador">
-		<input class="buscar" type="text" name="buscar" placeholder="      Buscar...">
-	</form>
-	<br>
-	<br>
-
-    <h1>Productos Destacados:</h1>
-        <ul>
-            ##productos##
-            <li id="principalproducto">
-                <a class="foto" href="##linkProducto##"><img class="foto" src="##foto##" /></a>
-				<div id="nombreprecio">
-                <a id="nombre" href="##linkProducto##"><p>##nombre##</p></a>
-                <p>##precio##</p>
-				</div>
-            </li>
-            ##productos##
+	<input class="buscar" type="text" id="buscar" name="buscar" placeholder="      Buscar..." onkeyup="buscar();">
+	<br><br>
+    <h1>Productos:</h1>
+        <ul id="listaProducto">
         </ul>
-
+    <img src="imagenes/flecha_abajo.png" class="flecha" onclick="mas()">
   </div>
-    ##footer##
-
+  ##footer##
 </body>
 </html>

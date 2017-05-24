@@ -217,9 +217,9 @@ function vpagarpaypal($precio){
 		$cadena = file_get_contents("principal.html");
 		$cadena = str_replace("##Titulo##","Rufocube",$cadena);
 		$cadena = cabecera($cadena);
-		$trozos = explode("##productos##", $cadena);
+		/**$trozos = explode("##productos##", $cadena);
 		$cuerpo = "";
-		while($fila = mysqli_fetch_assoc($consulta)){
+		/while($fila = mysqli_fetch_assoc($consulta)){
 			$aux = $trozos[1];
       $nombre = $fila['nombre'];
       $precio = $fila['precio'];
@@ -230,8 +230,8 @@ function vpagarpaypal($precio){
 			$aux = str_replace("##nombre##", "$nombre", $aux);
 			$aux = str_replace("##precio##", "$precio &#8364", $aux);
 			$cuerpo .= $aux;
-		}
-	echo $trozos[0] . $cuerpo . $trozos[2];
+		}*/
+	echo $cadena;
 	}
 
 	function vmostrarlogin(){

@@ -21,12 +21,6 @@
 		}
 	}
 	switch ($accion) {
-		case "buscar":
-			if (isset($_POST["buscar"]))
-				vmostrarbusqueda(mbuscar($_POST["buscar"]));
-			else
-				vmostrarlistadoproductos(mcontarproductos(),mlistadoproductos());
-			break;
 		case "producto":
 			vmostrarproducto(mmostrarproducto(),mmostrarreviewsproducto());
 			break;
@@ -218,6 +212,18 @@
 				header('Location:controlador.php?accion=login');
 		}
 		break;
+		case "buscar":
+			if (isset($_GET["texto"])) {
+				$texto = $_GET["texto"];
+			} else {
+				if (isset($_POST["texto"])) {
+					$texto = $_POST["texto"];
+				} else {
+					$texto = "";
+				}
+			}
+			mbuscar($texto);
+			break;
 		default:
 				vmostrarlistadoproductos(mlistadoproductos());
 				break;

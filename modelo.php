@@ -64,11 +64,11 @@ function mbuscar($busqueda){
     if($mysqli->connect_errno){
       die("Conexion fallida:" .$mysqli->connect_error.".\n");
     }
-		$busqueda="'%".$busqueda."%'";
+		$busqueda="%".$busqueda."%";
     //Preparamos la consulta
 		$i=0;
     if (!($sentencia = $mysqli->prepare("SELECT p.idProducto,p.nombre,p.precio, pi.Imagen FROM producto p, productosimagenes pi
-											WHERE p.idProducto=pI.idProducto AND (p.nombre LIKE ? OR p.descripcion LIKE ?)"))){
+											WHERE p.idProducto=pi.idProducto AND (p.nombre LIKE ? OR p.descripcion LIKE ?) AND pi.principal=1 "))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
 		if (!$sentencia->bind_param("ss",$busqueda,$busqueda)) {
@@ -77,18 +77,21 @@ function mbuscar($busqueda){
     if (!$sentencia->execute()) {
 		echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
     }
-    if(!$sentencia->bind_result($resultados[$i]["IdProducto"],$resultados[$i]["Nombre"],$resultados[$i]["Precio"],$resultados[$i]["Imagen"])){
+    if(!$sentencia->bind_result($resultado["IdProducto"],$resultado["Nombre"],$resultado["Precio"],$resultado["Imagen"])){
       echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
     }
 	$resultados="";
 	while($sentencia->fetch()){
-			echo "voy";
+			$resultados[$i]["IdProducto"]=$resultado["IdProducto"];
+			$resultados[$i]["Nombre"]=$resultado["Nombre"];
+			$resultados[$i]["Precio"]=$resultado["Precio"];
+			$resultados[$i]["Imagen"]=$resultado["Imagen"];
       $i=$i+1;
 	}
-	echo $i;
     $sentencia->close();
     //Devolvemos el producto
     mysqli_close($mysqli);
+		echo json_encode($resultados);
     return $resultados;
 }
 function mmostrarproducto(){
