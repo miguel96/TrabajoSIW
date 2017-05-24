@@ -145,7 +145,7 @@ function vmostrarmispedidos($listadopedidos){
     foreach($listadopedidos as $datos){
       $aux = $trozospedidos[1];
       $aux = str_replace("##fecha##", $datos["fecha"], $aux);
-      $aux = str_replace("##precio##", $datos["precio"], $aux);
+      $aux = str_replace("##precio##", round($datos["precio"],2), $aux);
       $aux = str_replace("##mas##","<a href='controlador.php?accion=pedidoapdf&id=".$datos["idPedido"]."'>Exportar</a>",$aux);
       switch ($datos["estado"]) {
         case 1:
@@ -175,7 +175,7 @@ function vmostrarpedido($listadoproductos){
       foreach ($listadoproductos as $producto) {
         $aux = $trozosproductos[1];
         $aux = str_replace("##nombre##", $producto["Nombre"], $aux);
-        $aux = str_replace("##precio##", $producto["Precio"], $aux);
+        $aux = str_replace("##precio##", round($producto["Precio"],2), $aux);
         $aux = str_replace("##imagen##", $producto["Imagen"],$aux);
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
