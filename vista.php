@@ -104,6 +104,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
       $aux = str_replace("##apellido2Usuario##", $datos["apellido2"], $aux);
       $aux = str_replace("##texto##", $datos["Comentario"], $aux);
       $aux = str_replace("##valoracion##", $datos["Valoracion"], $aux);
+      $aux = str_replace("##imagenCom##", $datos["Imagen"], $aux);
       $comentarios .= $aux;
     }
   //}
@@ -126,6 +127,7 @@ function vmostrarmisvaloraciones($listadoreviews){
       $aux = str_replace("##nombreProducto##", $datos["Nombre"], $aux);
       $aux = str_replace("##texto##", $datos["Comentario"], $aux);
       $aux = str_replace("##valoracion##", $datos["Valoracion"], $aux);
+      $aux = str_replace("##imagen##", $datos["Imagen"], $aux);
       $comentarios .= $aux;
     }
   echo $trozoscomentarios[0] . $comentarios  . $trozoscomentarios[2];
@@ -174,7 +176,7 @@ function vmostrarpedido($listadoproductos){
         $aux = $trozosproductos[1];
         $aux = str_replace("##nombre##", $producto["Nombre"], $aux);
         $aux = str_replace("##precio##", $producto["Precio"], $aux);
-        $aux = str_replace("##imagen##", "<img src=".$producto["Imagen"],$aux);
+        $aux = str_replace("##imagen##", $producto["Imagen"],$aux);
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
       }
