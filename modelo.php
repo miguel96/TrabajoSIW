@@ -314,7 +314,7 @@ function mmostrarpedidosusuario($id){
 
 function mmostrarpedido(){
   if(isset($_COOKIE['Carrito'])) {
-    $productos=json_decode($_COOKIE['Carrito']);//LineaCambiada
+		$productos=json_decode($_COOKIE['Carrito']);//LineaCambiada
   } else {
     $productos=array();
   }
@@ -328,7 +328,7 @@ function mmostrarpedido(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT p.idProducto, p.Nombre,p.Descripcion,p.Precio,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.idProducto=? and p.idProducto=pi.idProducto limit 0,1"))){//LineaCambiada
+	if (!($sentencia = $mysqli->prepare("SELECT p.idProducto, p.Nombre,p.Descripcion,p.Precio,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.idProducto=? and p.idProducto=pi.idProducto limit 0,1"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -342,7 +342,7 @@ function mmostrarpedido(){
         if (!$sentencia->execute()) {
         echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
         }
-        if(!$sentencia->bind_result($resultados[$i]["idProducto"],$resultados[$i]["Nombre"],$resultados[$i]["Descripcion"],$resultados[$i]["Precio"],$resultados[$i]["Stock"],$resultados[$i]["Imagen"])){//LineaCambiada
+        if(!$sentencia->bind_result($resultados[$i]["idProducto"],$resultados[$i]["Nombre"],$resultados[$i]["Descripcion"],$resultados[$i]["Precio"],$resultados[$i]["Stock"],$resultados[$i]["Imagen"])){
           echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
         }
         $sentencia->fetch();
@@ -629,16 +629,16 @@ function mmostrarproductospedidoid($id){
     return $formulario;
   }
 
-  function msubirimagen($nombre,$img,$tipo){
+  function msubirproducto($formulario){
 
 		$rand = rand(0,10000);
-		$im = "imagenes/" .$rand."_". $nombre;
+		$im = "imagenes/" .$rand."_". $formulario["nombreimagen"];
 
-		if (move_uploaded_file($img,$im)){
+		if (move_uploaded_file($formulario["temporal"],$im)){
 			list($ancho,$alto) = getimagesize($im);
 			$ratio = ($ancho/$alto);
 
-			switch ($tipo){
+			switch ($formulario["tipo"]){
 				case "image/jpeg":
 					header('Content-Type: image/jpeg');
 					$imagen = imagecreatefromjpeg($im);
@@ -686,10 +686,77 @@ function mmostrarproductospedidoid($id){
 			if(!$mysqli){
 				die("Conexion fallida:" .mysqli_connect_error);
 			}
-			//Falta subir a la base de datos, se mete con la creacion de cada review.
+
+			//Preparamos la consulta
+
+			if (!($sentencia = $mysqli->prepare('SELECT idProducto FROM producto WHERE Nombre=? and Precio=? and Descripcion=? and Stock=?'))){
+				ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+			}
+			if (!$sentencia->bind_param("sisi",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"])) {
+				echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if (!$sentencia->execute()) {
+				echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if(!$sentencia->bind_result($resultado)){
+				echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if(!$sentencia->fetch){
+				if (!($sentencia = $mysqli->prepare('INSERT INTO producto (Nombre,Precio,Descripcion,Stock) VALUES (?, ?, ?,?)'))){
+                                    ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+                                }
+                                if (!$sentencia->bind_param("sisi",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"])) {
+                                    echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+                                }
+                                if (!$sentencia->execute()) {
+                                    echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+                                }
+			}else{
+                            $id=$resultado;
+			}
+
+			if (!($sentencia = $mysqli->prepare('SELECT principal FROM productosimagenes natural join producto WHERE idProducto=?'))){
+				ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+			}
+			if (!$sentencia->bind_param("i",$id)) {
+				echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if (!$sentencia->execute()) {
+				echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if(!$sentencia->bind_result($resultado)){
+				echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+			}
+			if(!$sentencia->fetch()){
+
+				if (!($insert = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal) VALUES (?, ?, ?,?,1)'))){
+					ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+				}
+				if (!$insert->bind_param("isss",$id,$imgr,$imm,$imp)) {
+					echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+				if (!$insert->execute()) {
+					echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+
+			}else{
+
+				if (!($insert = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal) VALUES (?, ?, ?,?,0)'))){
+					ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+				}
+				if (!$insert->bind_param("isss",$id,$imgr,$imm,$imp)) {
+					echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+				if (!$insert->execute()) {
+					echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+
+			}
+			mysqli_close($mysqli);
 
 		}
 	}
+
 		function misadmin($email){
 			$servidor="127.0.0.1";
 			$usuario="siw06";

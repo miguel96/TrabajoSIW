@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device−width, initial−scale=1.0" />
+    <!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
+    <link rel="stylesheet" href="estilos.css">
+    <script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+    <script src="dropzone.js"></script>
+    <link rel="stylesheet" href="dropzone.css">
+    <title>##titulo##</title>
+</head>
+<body>
+    ##cabecera##
+  <br><br>
+    <form action="controlador.php?accion=pedirimagen" method="post" accept-charset="utf-8" id="formularioregistro">
+        
+        <div class="campoFormulario">
+        <p>Nombre</p>
+        <input class="anadirproducto" type="text" name="nombre" />
+      </div><div clas="campoFormulario">
+        <p>Precio</p>
+        <input class="anadirproducto" type="text" name="precio" />
+        </div><div clas="campoFormulario">
+        <p>Descripcion</p>
+        <textarea class="anadirproducto" name="descripcion" rows="20" cols="50"> </textarea>
+        </div><div clas="campoFormulario">
+        <p>Stock</p>
+        <input class="anadirproducto" type="number" name="stock" />
+        </div>
+		<br><br>
+		
+		
+        <input class="botonproducto" type="submit" value="Subir">
+    </form>
+	<br>
+	##footer##
+</body>
+</html>

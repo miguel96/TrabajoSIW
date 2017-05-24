@@ -1,20 +1,42 @@
 <?php
+function vpedirimagen($formulario){
+    $cadena = file_get_contents("dropzone.html");
+    $cadena = cabecera($cadena);
+	$cadena = footer($cadena);
+    $cadena = str_replace("##titulo##", "Rufocube-  Anadir Producto", $cadena);
+
+    $cadena = str_replace("##nombre##", $formulario["nombre"], $cadena);
+    $cadena = str_replace("##precio##", $formulario["precio"], $cadena);
+    $cadena = str_replace("##descripcion##", $formulario["descripcion"], $cadena);
+    $cadena = str_replace("##stock##", $formulario["stock"], $cadena);
+
+    echo $cadena;
+}
+function vanadirproducto(){
+    $cadena = file_get_contents("anadirproducto.html");
+    $cadena = str_replace("##titulo##", "Rufocube-  Anadir Producto", $cadena);
+    $cadena = cabecera($cadena);
+    $cadena = footer($cadena);
+    echo $cadena;
+}
 function cabecera($cadena){
   header("Content-Type: text/html; charset=iso-8859-1");
   $cabecera=file_get_contents("cabecera.html");
-  $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
   $cabecera=str_replace("##carrito##","<a href='controlador.php?accion=pedido'>Carrito</a>",$cabecera);
   if (cislogged() and cisadmin()){
+        $cabecera=str_replace("##principal##","<a href='controlador.php?accion=anadirproducto'>A&ntildeadir producto</a>",$cabecera);
 	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Ver pedidos</a>",$cabecera);
 	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Ver valoraciones</a>",$cabecera);
-    $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
+        $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
   }
   else if(cislogged()){
+        $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
 	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
 	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Mis valoraciones</a>",$cabecera);
     $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
   }
   else{
+        $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
 	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
 	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Mis valoraciones</a>",$cabecera);
     $cabecera=str_replace("##login##","<a href='controlador.php?accion=login'>Iniciar Sesi&oacuten</a>",$cabecera);
@@ -179,7 +201,7 @@ function vmostrarpedido($listadoproductos){
         $aux = str_replace("##precio##", round($producto["Precio"],2), $aux);
         $aux = str_replace("##imagen##", $producto["Imagen"],$aux);
         $aux = str_replace("##cantidad##", $producto["Cantidad"],$aux);
-        $aux = str_replace("##id##", $producto["idProducto"],$aux);//LineaCambiada
+        $aux = str_replace("##id##", $producto["idProducto"],$aux);
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
         $cantidadTotal+=$producto["Cantidad"];
