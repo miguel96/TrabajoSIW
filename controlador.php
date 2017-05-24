@@ -80,14 +80,14 @@
 		case "pedido":
 				vmostrarpedido(mmostrarpedido());
 				break;
-		case "addCarrito"://LineaCambiada (funcion entera)
+		case "addCarrito":
 				//AddCookie
 				if(!isset($_COOKIE["Carrito"])) {
 					$datos=array($id=>1);
 					setcookie("Carrito",json_encode($datos),time()+3600);
 				}
 				else {
-					$datos=json_decode($_COOKIE["Carrito"]);
+					$datos=json_decode($_COOKIE["Carrito"],true);
 					if(isset($datos[$id])){
 						$datos[$id]=$datos[$id]+1;
 					}
@@ -95,6 +95,7 @@
 						$datos[$id]=1;
 					}
 				}
+				echo json_encode($datos);
 				setcookie("Carrito",json_encode($datos),time()+3600);
 				//Redirige a pag pedido
 				header('Location:controlador.php?accion=pedido');
