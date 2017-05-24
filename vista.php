@@ -171,19 +171,25 @@ function vmostrarpedido($listadoproductos){
   $trozosproductos = explode("##producto##", $cadena);
   $precio=0;
   $productos="";
+  $cantidadTotal=0;
   if($listadoproductos!=""){
       foreach ($listadoproductos as $producto) {
         $aux = $trozosproductos[1];
         $aux = str_replace("##nombre##", $producto["Nombre"], $aux);
         $aux = str_replace("##precio##", round($producto["Precio"],2), $aux);
         $aux = str_replace("##imagen##", $producto["Imagen"],$aux);
+        $aux = str_replace("##cantidad##", $producto["Cantidad"],$aux);
+        $aux = str_replace("##id##", $producto["idProducto"],$aux);//LineaCambiada
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
+        $cantidadTotal+=$producto["Cantidad"];
       }
         $trozosproductos[2]=str_replace("##nart##",sizeof($listadoproductos),$trozosproductos[2]);
+        $trozosproductos[2]=str_replace("##cantTot##",$cantidadTotal,$trozosproductos[2]);
   }
   else{
         $trozosproductos[2]=str_replace("##nart##","No hay ",$trozosproductos[2]);
+        $trozosproductos[2]=str_replace("##cantTot##","0 ",$trozosproductos[2]);
   }
   $cadena=$trozosproductos[0] . $productos  . $trozosproductos[2];
   $cadena=str_replace("##precioTotal##",$precio."&#8364",$cadena);

@@ -314,7 +314,7 @@ function mmostrarpedidosusuario($id){
 
 function mmostrarpedido(){
   if(isset($_COOKIE['Carrito'])) {
-    $productos=unserialize($_COOKIE['Carrito']);
+    $productos=json_decode($_COOKIE['Carrito']);//LineaCambiada
   } else {
     $productos=array();
   }
@@ -328,13 +328,13 @@ function mmostrarpedido(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT p.Nombre,p.Descripcion,p.Precio,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.idProducto=? and p.idProducto=pi.idProducto limit 0,1"))){
+  if (!($sentencia = $mysqli->prepare("SELECT p.idProducto, p.Nombre,p.Descripcion,p.Precio,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.idProducto=? and p.idProducto=pi.idProducto limit 0,1"))){//LineaCambiada
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
   $i=0;
   $resultados="";
-  foreach ($productos as $id) {
+  foreach ($productos as $id=>$cantidad) {
         $i=$i+1;
         if (!$sentencia->bind_param("i",$id)) {
         echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
@@ -342,10 +342,11 @@ function mmostrarpedido(){
         if (!$sentencia->execute()) {
         echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
         }
-        if(!$sentencia->bind_result($resultados[$i]["Nombre"],$resultados[$i]["Descripcion"],$resultados[$i]["Precio"],$resultados[$i]["Stock"],$resultados[$i]["Imagen"])){
+        if(!$sentencia->bind_result($resultados[$i]["idProducto"],$resultados[$i]["Nombre"],$resultados[$i]["Descripcion"],$resultados[$i]["Precio"],$resultados[$i]["Stock"],$resultados[$i]["Imagen"])){//LineaCambiada
           echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
         }
         $sentencia->fetch();
+				$resultados[$i]["Cantidad"]=$cantidad;
   }
   mysqli_close($mysqli);
   return $resultados;

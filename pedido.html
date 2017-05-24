@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device−width, initial−scale=1.0" />
 	<!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
 	<link rel="stylesheet" href="estilos.css">
+	<script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+	<script type="text/javascript" src="carrito.js"></script>
 	<title>##titulo##</title>
 </head>
 <body>
@@ -16,17 +18,20 @@
 		<th>Imagen</th>
 		<th>Nombre</th>
 		<th>Precio</th>
+		<th>Cantidad</th>
     ##producto##
 			<tr>
 				<td><img src="##imagen##" ></td>
         <td>##nombre##</td>
         <td>##precio##</td>
+				<td><img src="imagenes/cant+.png" class="flecha_cant" onclick="mas(##id##)"> <br>##cantidad##<br><img src="imagenes/cant-.png" class="flecha_cant" onclick="menos(##id##)"></td>
 			</tr>
 		##producto##
 		<tr>
 			<td>Total:</td>
 			<td>##nart## art&iacuteculos</td>
 			<td>##precioTotal##</td>
+			<td>##cantTot##</td>
 		</tr>
 	</table>
 	<div id="paypal">

@@ -65,6 +65,10 @@ body
 
     opacity: 1;
 }
+.flecha_cant{
+  width:50px;
+  margin:0 auto;
+}
 .flecha{
   width: 100px;
   margin:20px;
