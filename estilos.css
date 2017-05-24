@@ -42,14 +42,13 @@ body
     z-index: 20;
     top: 0;
     left: 0;
-
     visibility: hidden;
 
     width: 100%;
-    height: 100%;
+    height: auto;
 
     text-align: center;
-
+  overflow: auto;
     opacity: 1;
 }
 .imagenGrande .cerrar
@@ -535,7 +534,14 @@ MEDIA QUERIES
     {
         width: 48%;
     }
-
+    .imagenGrande img
+    {
+        display: inline-block;
+        margin-left: 25%;
+        width: 50%;
+        align-self: center;
+        margin-top: 50px;
+    }
     #nombreprecio
     {
         clear: left;

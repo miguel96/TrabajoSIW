@@ -7,10 +7,12 @@ function setMediana(clickada,id){
 function setGrande(){
   document.getElementById("telon").style.visibility="visible";
   document.getElementById("contenedorImagenGrande").style.visibility="visible";
+  document.getElementById("footer").style.visibility="hidden";
 }
 function cerrarGrande(){
   document.getElementById("telon").style.visibility="hidden";
   document.getElementById("contenedorImagenGrande").style.visibility="hidden";
+  document.getElementById("footer").style.visibility="visible";
 }
 function clickedDerecha(){
   if(selected<max-1){
