@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: text/html; charset=iso-8859-1");
 
-	$servidor ="127.0.0.1";
+	$servidor ="dbserver";
 	$usuario="siw06";
 	$password="asahwaeche";
 	$dbname="db_siw06";
