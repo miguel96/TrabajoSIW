@@ -1,6 +1,6 @@
 <?php
 function msavecomentario($formulario){
-	$servidor ="127.0.0.1";
+	$servidor ="dbserver";
 	$usuario="siw06";
 	$password="asahwaeche";
 	$dbname="db_siw06";
@@ -22,7 +22,7 @@ function msavecomentario($formulario){
 function mgaleria($id){
 	$id = $_GET["id"];
 	//Codigo para coger info de bbdd
-	$servidor ="127.0.0.1";
+	$servidor ="dbserver";
 	$usuario="siw06";
 	$password="asahwaeche";
 	$dbname="db_siw06";
@@ -55,7 +55,7 @@ function mgaleria($id){
 	return $resultados;
 }
 function mbuscar($busqueda){
-		$servidor ="127.0.0.1";
+		$servidor ="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -97,7 +97,7 @@ function mbuscar($busqueda){
 function mmostrarproducto(){
     $id = $_GET["id"];
     //Codigo para coger info de bbdd
-    $servidor ="127.0.0.1";
+    $servidor ="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -130,7 +130,7 @@ function mmostrarproducto(){
 function mmostrarreviewsproducto(){
   $id = $_GET["id"];
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -169,7 +169,7 @@ function mmostrarreviewsproducto(){
 }
 function mmostrarreviewsadmin(){
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -203,7 +203,7 @@ function mmostrarreviewsadmin(){
 
 function mmostrarreviewsusuario($id){
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -240,7 +240,7 @@ function mmostrarreviewsusuario($id){
 function mmostrarpedidoadmin(){
 //Buscamos la id en la sesion o en la url, si no no mostramos nada
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -276,7 +276,7 @@ function mmostrarpedidoadmin(){
 function mmostrarpedidosusuario($id){
 //Buscamos la id en la sesion o en la url, si no no mostramos nada
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -319,7 +319,7 @@ function mmostrarpedido(){
     $productos=array();
   }
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -353,7 +353,7 @@ function mmostrarpedido(){
 }
 
 function mgetUsuario($email){
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -381,7 +381,7 @@ function mgetUsuario($email){
   return $resultado;
 }
 function mestalogin($id,$contrasena){
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -411,7 +411,7 @@ function mestalogin($id,$contrasena){
 //Codigo Ruben
 
 function mpedidopertenece($idPedido,$idUsuario){
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -441,7 +441,7 @@ function mpedidopertenece($idPedido,$idUsuario){
 
 function mmostrarproductospedidoid($id){
   //Codigo para coger info de bbdd
-  $servidor="127.0.0.1";
+  $servidor="dbserver";
   $usuario="siw06";
   $password="asahwaeche";
   $dbname="db_siw06";
@@ -493,7 +493,7 @@ function mmostrarproductospedidoid($id){
   return $resultados;
 }
 	function mlistadoproductos(){
-    $servidor="127.0.0.1";
+    $servidor="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -501,7 +501,7 @@ function mmostrarproductospedidoid($id){
 		if(!$mysqli){
             die("Conexion fallida:" .mysqli_connect_error);
 		}
-		$resultado = mysqli_query($mysqli, "select p.nombre,p.precio,p.idProducto, pi.Imagen from producto p, productosimagenes pi where p.idProducto=pi.idProducto and pi.principal=1");
+		$resultado = mysqli_query($mysqli, "select p.nombre,p.precio,p.idProducto, pi.Imagen from producto p, productosimagenes pi where p.idProducto=pi.idProducto and principal=1");
         	if (!$resultado) {
             	echo "Error de BD, no se pudo consultar la base de datos\n";
 
@@ -511,7 +511,36 @@ function mmostrarproductospedidoid($id){
 		return $resultado;
 
 	}
-
+	/*function mobtenerdatos($email){
+		$servidor="dbserver";
+		$usuario="siw06";
+		$password="asahwaeche";
+		$dbname="db_siw06";
+		$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+		
+		if(!$mysqli){
+			die("Conexion fallida:" .mysqli_connect_error);
+		}
+		if (!($sentencia = $mysqli->prepare("SELECT Nombre,apellido1,apellido2,email,password,direccion,CP,sexo,Comunidad,Provincia,Municipio from usuarios WHERE email=?"))){
+			ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+		}
+		//Preparamos la consulta
+		if (!$sentencia->bind_param("s",$email)) {
+			echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+		}
+		if(!$sentencia->bind_result($formulario["id"],$formulario["nombre"],$formulario["apellido1"],$formulario["apellido2"],
+		$formulario["email"],$formulario["contrasena"],$formulario["direccion"],$formulario["codpos"],$formulario["sexo"],$formulario["comunidad"],
+		$formulario["provincia"],$formulario["poblacion"])){
+			echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+		}
+		if (!$sentencia->execute()) {
+			echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+		}
+	    $sentencia->fetch();
+		mysqli_close($mysqli);
+		return $formulario;	
+		
+	}*/	
 	function mcomprobarregistro($formulario){
     //$email,$contrasena,$contrasena1,$nombre,$apellido1,$apellido2,$sexo,$comunidad,$provincia,$poblacion,$direccion,$codpos){
     foreach($formulario as $campo){
@@ -519,7 +548,7 @@ function mmostrarproductospedidoid($id){
         return("Rellene todos los campos del registro.");
       }
     }
-    $servidor="127.0.0.1";
+    $servidor="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -546,7 +575,7 @@ function mmostrarproductospedidoid($id){
         return("Las contrase&ntildeas no coinciden.");
     }
     else{
-        $servidor="127.0.0.1";
+        $servidor="dbserver";
         $usuario="siw06";
         $password="asahwaeche";
         $dbname="db_siw06";
@@ -575,7 +604,7 @@ function mmostrarproductospedidoid($id){
       }
   }
 	function mcomprobarlogin($user,$contrasena){
-    $servidor="127.0.0.1";
+    $servidor="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -601,7 +630,7 @@ function mmostrarproductospedidoid($id){
     return $login;
 	}
   function mgetinfo($idUser){
-    $servidor="127.0.0.1";
+    $servidor="dbserver";
     $usuario="siw06";
     $password="asahwaeche";
     $dbname="db_siw06";
@@ -637,23 +666,29 @@ function mmostrarproductospedidoid($id){
 		if (move_uploaded_file($formulario["temporal"],$im)){
 			list($ancho,$alto) = getimagesize($im);
 			$ratio = ($ancho/$alto);
-
+			
 			switch ($formulario["tipo"]){
 				case "image/jpeg":
 					header('Content-Type: image/jpeg');
 					$imagen = imagecreatefromjpeg($im);
 					$peq = imagecreatetruecolor(100,100/$ratio);
 					$imp = str_replace(".jpg","_peq.jpg",$im );
+					if ($imp==$im)
+						$imp = str_replace(".JPG","_peq.jpg",$im );
 					imagecopyresized($peq,$imagen,0,0,0,0,100,100/$ratio,$ancho,$alto);
 					imagejpeg($peq,$imp);
 
 					$med = imagecreatetruecolor(200,200/$ratio);
 					$imm = str_replace(".jpg","_med.jpg",$im );
+					if ($imm==$im)
+						$imm = str_replace(".JPG","_med.jpg",$im );
 					imagecopyresized($med,$imagen,0,0,0,0,200,200/$ratio,$ancho,$alto);
 					imagejpeg($med,$imm);
 
 					$gran = imagecreatetruecolor(300,300/$ratio);
 					$imgr = str_replace(".jpg","_grande.jpg",$im );
+					if ($imgr==$im)
+						$imgr = str_replace(".JPG","_grande.jpg",$im );
 					imagecopyresized($gran,$imagen,0,0,0,0,300,300/$ratio,$ancho,$alto);
 					imagejpeg($gran,$imgr);
 					break;
@@ -662,23 +697,29 @@ function mmostrarproductospedidoid($id){
 					$peq = imagecreatetruecolor(100,100/$ratio);
 					$imagen = imagecreatefrompng($im);
 					$imp = str_replace(".png","_peq.png",$im );
+					if ($imp==$im)
+						$imp = str_replace(".PNG","_peq.png",$im );
 					imagecopyresized($peq,$imagen,0,0,0,0,100,100/$ratio,$ancho,$alto);
 					imagepng($peq,$imp);
 
 					$med = imagecreatetruecolor(250,250/$ratio);
 					$imm = str_replace(".png","_med.png",$im );
+					if ($imm==$im)
+						$imm = str_replace(".PNG","_med.png",$im );
 					imagecopyresized($med,$imagen,0,0,0,0,250,250/$ratio,$ancho,$alto);
 					imagepng($med,$imm);
 
 					$gran = imagecreatetruecolor(500,500/$ratio);
 					$imgr = str_replace(".png","_grande.png",$im );
+					if ($imgr==$im)
+						$imgr = str_replace(".PNG","_grande.png",$im );
 					imagecopyresized($gran,$imagen,0,0,0,0,500,500/$ratio,$ancho,$alto);
 					imagepng($gran,$imgr);
 					break;
 			}
 			unlink($im);
 
-			$servidor="127.0.0.1";
+			$servidor="dbserver";
 			$usuario="siw06";
 			$password="asahwaeche";
 			$dbname="db_siw06";
@@ -688,11 +729,11 @@ function mmostrarproductospedidoid($id){
 			}
 
 			//Preparamos la consulta
-
-			if (!($sentencia = $mysqli->prepare('SELECT idProducto FROM producto WHERE Nombre=? and Precio=? and Descripcion=? and Stock=?'))){
+						
+			if (!($sentencia = $mysqli->prepare('SELECT principal FROM producto natural join productosimagenes WHERE Nombre=? and Precio=? and Descripcion=? and Stock=?'))){
 				ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
 			}
-			if (!$sentencia->bind_param("sisi",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"])) {
+			if (!$sentencia->bind_param("sdsi",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"])) {
 				echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
 			}
 			if (!$sentencia->execute()) {
@@ -701,64 +742,54 @@ function mmostrarproductospedidoid($id){
 			if(!$sentencia->bind_result($resultado)){
 				echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
 			}
-			if(!$sentencia->fetch){
-				if (!($sentencia = $mysqli->prepare('INSERT INTO producto (Nombre,Precio,Descripcion,Stock) VALUES (?, ?, ?,?)'))){
-                                    ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
-                                }
-                                if (!$sentencia->bind_param("sisi",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"])) {
-                                    echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
-                                }
-                                if (!$sentencia->execute()) {
-                                    echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
-                                }
-			}else{
-                            $id=$resultado;
-			}
-
-			if (!($sentencia = $mysqli->prepare('SELECT principal FROM productosimagenes natural join producto WHERE idProducto=?'))){
-				ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
-			}
-			if (!$sentencia->bind_param("i",$id)) {
-				echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
-			}
-			if (!$sentencia->execute()) {
-				echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
-			}
-			if(!$sentencia->bind_result($resultado)){
-				echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
-			}
-			if(!$sentencia->fetch()){
-
-				if (!($insert = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal) VALUES (?, ?, ?,?,1)'))){
-					ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
-				}
-				if (!$insert->bind_param("isss",$id,$imgr,$imm,$imp)) {
-					echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
-				}
-				if (!$insert->execute()) {
-					echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
-				}
-
-			}else{
-
-				if (!($insert = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal) VALUES (?, ?, ?,?,0)'))){
-					ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
-				}
-				if (!$insert->bind_param("isss",$id,$imgr,$imm,$imp)) {
-					echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
-				}
-				if (!$insert->execute()) {
-					echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
-				}
-
-			}
+			$sentencia->fetch;
+			$principal=($resultado==1);
 			mysqli_close($mysqli);
-
+			
+			$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+			if(!$mysqli){
+				die("Conexion fallida:" .mysqli_connect_error);
+			}
+			if(!$principal){
+				if (!($sentencia = $mysqli->prepare('INSERT INTO producto (Nombre,Precio,Descripcion,Stock) VALUES (?, ?, ?,?)'))){
+                    ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+                }
+                if (!$sentencia->bind_param("sdsi",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"])) {
+					echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+                }
+                if (!$sentencia->execute()) {
+                    echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+                }
+		
+			
+				if (!($sentencia = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal)VALUES ((select IdProducto from producto where nombre=? and precio=? and descripcion=? and stock=?),?,?,?,0)'))){
+					ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+				}
+				if (!$sentencia->bind_param("sdsisss",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"],$imgr,$imm,$imp)) {
+					echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+				if (!$sentencia->execute()) {
+					echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+			}	
+			else{
+				if (!($sentencia = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal)VALUES ((select IdProducto from producto where nombre=? and precio=? and descripcion=? and stock=?),?,?,?,0)'))){
+					ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+				}
+				if (!$sentencia->bind_param("sdsisss",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"],$imgr,$imm,$imp)) {
+					echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+				if (!$sentencia->execute()) {
+					echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+				}
+			}	
+			mysqli_close($mysqli);
+			
 		}
 	}
 
 		function misadmin($email){
-			$servidor="127.0.0.1";
+			$servidor="dbserver";
 			$usuario="siw06";
 			$password="asahwaeche";
 			$dbname="db_siw06";

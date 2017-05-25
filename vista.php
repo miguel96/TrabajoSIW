@@ -27,13 +27,13 @@ function cabecera($cadena){
         $cabecera=str_replace("##principal##","<a href='controlador.php?accion=anadirproducto'>A&ntildeadir producto</a>",$cabecera);
 	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Ver pedidos</a>",$cabecera);
 	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Ver valoraciones</a>",$cabecera);
-        $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
+        $cabecera=str_replace("##login##","<a href='controlador.php?accion=cuenta'>Cuentas</a>",$cabecera);
   }
   else if(cislogged()){
         $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
 	$cabecera=str_replace("##mispedidos##","<a href='controlador.php?accion=mispedidos'>Mis pedidos</a>",$cabecera);
 	$cabecera=str_replace("##misvaloraciones##","<a href='controlador.php?accion=misvaloraciones'>Mis valoraciones</a>",$cabecera);
-    $cabecera=str_replace("##login##","<a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten</a>",$cabecera);
+    $cabecera=str_replace("##login##","<a href='controlador.php?accion=cuenta'>Mi cuenta</a>",$cabecera);
   }
   else{
         $cabecera=str_replace("##principal##","<a href='controlador.php'>Inicio</a>",$cabecera);
@@ -49,6 +49,23 @@ function footer($cadena){
 	$footer=file_get_contents("footer.html");
 	$cadena=str_replace("##footer##",$footer,$cadena);
 	return $cadena;
+}
+function vmostrarcuenta($formulario,$error = ""){
+	$cadena=file_get_contents("micuenta.html");
+	$cadena = cabecera($cadena);
+	$cadena = footer($cadena);
+	$cadena = str_replace("##titulo##","Rufocube-Tu cuenta", $cadena);
+	$cadena = str_replace("##Error##",$error, $cadena);
+	$cadena = str_replace("##email##",$formulario['email'], $cadena);
+	$cadena = str_replace("##contrasena##",$formulario['contrasena'], $cadena);
+	$cadena = str_replace("##nombre##",$formulario['nombre'], $cadena);
+	$cadena = str_replace("##apellido1##",$formulario['apellido1'], $cadena);
+	$cadena = str_replace("##apellido2##",$formulario['apellido2'], $cadena);
+	$cadena = str_replace("##sexo##",$formulario['sexo'], $cadena);
+	$cadena = str_replace("##direccion##",$formulario['direccion'], $cadena);
+	$cadena = str_replace("##codpos##",$formulario['codpos'], $cadena);
+	
+	echo $cadena;
 }
 function vmostrarcomentario($id){
   $cadena=file_get_contents("comentario.html");
@@ -240,7 +257,7 @@ function vpagarpaypal($precio){
   $cadena = str_replace("##valor##",$precio,$cadena);
   return $cadena;
 }
-//Codigo de ruben
+
   function vmostrarlistadoproductos($consulta){
 		$cadena = file_get_contents("principal.html");
 		$cadena = str_replace("##Titulo##","Rufocube",$cadena);

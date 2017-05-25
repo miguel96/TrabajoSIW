@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device−width, initial−scale=1.0" />
+    <!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
+    <link rel="stylesheet" href="estilos.css">
+    <title>##titulo##</title>
+</head>
+<script type="text/javascript" src="jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="busquedas.js"></script>
+<body>
+    ##cabecera##
+  <br>
+	
+	
+    <form id="formularioregistro" action="controlador.php?accion=editar" method="post" accept-charset="utf-8">
+		<p>Tu informaci&oacuten personal:</p>
+        <div class="campoFormulario"><p>##Error##</p></div>
+        <div class="campoFormulario">
+        <p>Email</p>
+        <input class="registrotexto" type="email" name="email" value="##email##" readonly />
+      </div><div class="campoFormulario">
+        <p>Contrase&ntildea</p>
+        <input class="registrotexto" type="password" name="contrasena" value="##contrasena##" readonly />
+        </div><div class="campoFormulario">
+		<p>Nombre</p>
+        <input class="registrotexto" type="text" name="nombre" value="##nombre##" readonly />
+        </div><div class="campoFormulario">
+		<p>Apellido 1</p>
+		<input class="registrotexto" type="text" name="apellido1" value="##apellido1##" readonly />
+    </div><div class="campoFormulario">
+    <p>Apellido 2</p>
+		<input class="registrotexto" type="text" name="apellido2" value="##apellido2##" readonly />
+    </div><div class="campoFormulario">
+		<p>Sexo</p>
+		<select name="sexo" value="##sexo##" readonly >
+			<option value="1">Hombre</option>
+			<option value="2">Mujer</option>
+		</select>
+    </div><div class="campoFormulario" id="capacomunidades">
+    </div><div class="campoFormulario" id="capaprovincias">
+    </div><div class="campoFormulario" id="capapoblaciones">
+    </div><div class="campoFormulario">
+		<p>Direcci&oacuten</p>
+        <input class="registrotexto" type="text" name="direccion" value="##direccion##" readonly />
+    </div><div class="campoFormulario">
+		<p>C&oacutedigo Postal</p>
+		<input class="registrotexto" type="number" name="codpos" value="##codpos##" readonly />
+    </div>
+		<br><br><a href='controlador.php?accion=logout'>Cerrar Sesi&oacuten </a>
+    </form>
+	<br>
+	##footer##
+</body>
+</html>

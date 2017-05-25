@@ -128,7 +128,7 @@
       thumbnailWidth: 120,
       thumbnailHeight: 120,
       filesizeBase: 1000,
-      maxFiles: 3,
+      maxFiles: 1,
       params: {},
       clickable: true,
       ignoreHiddenFiles: true,
@@ -156,7 +156,7 @@
         return done();
       },
       init: function() {
-        return noop;
+        this.hiddenFileInput.removeAttribute('multiple');
       } ,
       forceFallback: false,
       fallback: function() {

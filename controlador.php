@@ -38,6 +38,13 @@
 		case "producto":
 			vmostrarproducto(mmostrarproducto(),mmostrarreviewsproducto());
 			break;
+		case "cuenta":
+			if(!isset($_SESSION))
+				session_start();
+			if(isset($_SESSION["Usuario"])){
+				vmostrarcuenta(mgetinfo($_SESSION["Usuario"]));
+			}
+			break;
 		case "misvaloraciones":
 		session_start();
 		$user=$_SESSION["Usuario"];
