@@ -129,7 +129,7 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
   $cadena = str_replace("##cantidad##", $listadoproducto["Stock"], $cadena);
   $cadena = str_replace("##imagen##","<a href=controlador.php?accion=galeria&id=".$listadoproducto["id"]."><img src=".$listadoproducto["Imagen"]." class=\"foto\"></a>",$cadena);
   //TODO hacer funcion comentarios y reemplazar link
-  $cadena = str_replace("##addComentario##","<a href=controlador.php?accion=comentario&id=1>Deja tu comentario</a>",$cadena);
+  $cadena = str_replace("##addComentario##","<a href=controlador.php?accion=comentario&id=".$listadoproducto["id"].">Deja tu comentario</a>",$cadena);
   //Bucle para montar los comentarios
   $comentarios="";
   $trozoscomentarios = explode("##comentario##", $cadena);
