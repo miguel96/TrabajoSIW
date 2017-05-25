@@ -315,7 +315,7 @@ function mmostrarreviewsadmin()
       {
         die("Conexion fallida:" . $mysqli->connect_error . ".\n");
       }
-    if (!($sentencia = $mysqli->prepare("SELECT u.Nombre,Valoracion,Comentario,Imagen,P.Nombre FROM final_reviews R, final_producto P,final_usuarios u WHERE R.IdProducto=P.IdProducto and r.idUsuario=u.idUsuario ORDER BY R.Fecha")))
+    if (!($sentencia = $mysqli->prepare("SELECT u.Nombre,Valoracion,Comentario,Imagen,P.Nombre FROM final_reviews R, final_producto P,final_usuarios u WHERE R.IdProducto=P.IdProducto and R.idUsuario=u.idUsuario ORDER BY R.Fecha")))
       {
         ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
       }
