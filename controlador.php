@@ -223,7 +223,6 @@
 		if(!isset($_SESSION))
 			session_start();
 		$formulario["idUsuario"]=$_SESSION["Usuario"];
-		print_r($formulario);
 		if(!filter_var($formulario["idUsuario"],FILTER_VALIDATE_INT)===false){
 			$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
 			if(mestalogin($formulario["idUsuario"],$password)){
@@ -249,6 +248,31 @@
 				}
 			}
 			mbuscar($texto);
+			break;
+		case "pagar":
+			//Comprobamos si esta logeado y obtenemos su id
+			if(!isset($_SESSION))
+				session_start();
+			$idUsuario=$_SESSION["Usuario"];
+			if(!filter_var($idUsuario,FILTER_VALIDATE_INT)===false){
+				$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
+				if(!mestalogin($idUsuario,$password)){
+						header('Location:controlador.php?accion=login');
+				}
+			}
+			else {
+				header('Location:controlador.php?accion=login');
+			}
+			//Obtenemos los productos comprados
+			if(!isset($_COOKIE["Carrito"])) {
+				header('Location:controlador.php?accion=login');
+			}
+			else {
+				$productos=json_decode($_COOKIE["Carrito"],true);
+			}
+			$precio=mpagar($idUsuario,$productos);
+			setcookie("Carrito","",time()-3600);
+			vtoPaypal($precio);
 			break;
 		default:
 				vmostrarlistadoproductos(mlistadoproductos());

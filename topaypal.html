@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device−width, initial−scale=1.0" />
+    <!--[if lt IE 9]> <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script> < ![endif]-->
+    <link rel="stylesheet" href="estilos.css">
+    <title>##titulo##</title>
+    <script type="text/javascript">
+      window.onload=function(){
+        document.forms["amazingfomulario"].submit();
+      }
+    </script>
+</head>
+<body>
+  <form action="https://www.paypal.com/cgi-bin/webscr" method="post" id="amazingfomulario">
+  <input type="hidden" name="cmd" value="_xclick">
+  <input type="hidden" name="business" value="rufocube@gmail.com">
+  <input type="hidden" name="item_name" value="pagoRufocube">
+  <input type="hidden" name="currency_code" value="EUR">
+  <input type="hidden" name="amount" value="##valor##">
+  <!--<input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, la forma rápida y segura de pagar en Internet.">-->
+  <img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+  </form>
+
+</body>
+</html>

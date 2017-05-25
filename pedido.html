@@ -24,7 +24,7 @@
 				<td><img src="##imagen##" ></td>
         <td>##nombre##</td>
         <td>##precio##</td>
-				<td><img src="imagenes/cant+.png" class="flecha_cant" onclick="mas(##id##)"> <br><div id="Cantidad##id##">##cantidad##</div><br><img src="imagenes/cant-.png" class="flecha_cant" onclick="menos(##id##)"></td>
+				<td><img src="imagenes/cant+.png" class="flecha_cant" onclick="mas(##id##,##stock##)"> <br><div id="Cantidad##id##">##cantidad##</div><br><img src="imagenes/cant-.png" class="flecha_cant" onclick="menos(##id##)"></td>
 			</tr>
 		##producto##
 		<tr>
@@ -35,7 +35,13 @@
 		</tr>
 	</table>
 	<div id="paypal">
-		<h2>##pagarAhora##</h2>
+		<h2>
+			<a href="controlador.php?accion=pagar">
+			  <img src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal, la forma rápida y segura de pagar en Internet.">
+			</a>
+			<img alt="" border="0" src="https://www.paypalobjects.com/es_ES/i/scr/pixel.gif" width="1" height="1">
+
+		</h2>
 	</div>
 </div>
   <br>

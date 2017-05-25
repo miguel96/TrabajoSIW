@@ -1,4 +1,85 @@
 <?php
+function mpagar($idUsuario,$productos){
+	$servidor ="127.0.0.1";
+	$usuario="siw06";
+	$password="asahwaeche";
+	$dbname="db_siw06";
+	$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
+	if($mysqli->connect_errno){
+		die("Conexion fallida:" .$mysqli->connect_error.".\n");
+	}
+	//Creamos el pedido
+	if (!($sentencia = $mysqli->prepare('INSERT INTO final_pedido (estado,idUsuario)VALUES (1,?)'))){
+		ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	if (!$sentencia->bind_param("i",$idUsuario)) {
+	echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	if (!$sentencia->execute()) {
+	echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	$sentencia->close();
+	//Obtenemos el id de pedido creado
+	if (!($sentencia = $mysqli->prepare('SELECT idPedido FROM final_pedido where idUsuario=? order by fecha desc limit 0,1'))){
+		ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	if (!$sentencia->bind_param("i",$idUsuario)) {
+	echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	if (!$sentencia->execute()) {
+	echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	if(!$sentencia->bind_result($idPedido)){
+		echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	$sentencia->fetch();
+	$sentencia->close();
+	//Insertamos los productos
+	if (!($sentencia = $mysqli->prepare('INSERT INTO productospedidos (idProducto,idPedido,cantidad) VALUES (?,?,?)'))){
+		ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	if (!$sentencia->bind_param("iii",$idProducto,$idPedido,$cantidad)) {
+	echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	foreach($productos as $idProducto=>$cantidad){
+		if (!$sentencia->execute()) {
+			echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+		}
+	}
+	$sentencia->close();
+	//Calculamos el precio del pedido
+	if (!($sentencia = $mysqli->prepare('SELECT (p.precio*pp.cantidad) FROM final_productospedidos pp,producto p where p.idProducto=pp.idProducto and pp.idPedido=?'))){
+		ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	if (!$sentencia->bind_param("i",$idPedido)) {
+	echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	if (!$sentencia->execute()) {
+	echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	if(!$sentencia->bind_result($precio)){
+		echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	$precioTotal=0;
+	while($sentencia->fetch()){
+		$precioTotal+=$precio;
+	}
+	$sentencia->close();
+	//Restamos los productos comprados a nuestro stock
+	if (!($sentencia = $mysqli->prepare('UPDATE producto SET stock=stock-? WHERE idProducto=?'))){
+		ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	if (!$sentencia->bind_param("ii",$cantidad,$idProducto)) {
+	echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
+	}
+	foreach ($productos as $idProducto => $cantidad) {
+		if (!$sentencia->execute()) {
+		echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
+		}
+	}
+	$sentencia->close();
+	return $precioTotal;
+}
 function msavecomentario($formulario){
 	$servidor ="127.0.0.1";
 	$usuario="siw06";
@@ -32,7 +113,7 @@ function mgaleria($id){
 		die("Conexion fallida:" .$mysqli->connect_error.".\n");
 	}
 	//Preparamos la consulta
-	if (!($sentencia = $mysqli->prepare('Select ImagenPeq FROM productosimagenes WHERE Idproducto=?'))){
+	if (!($sentencia = $mysqli->prepare('Select ImagenPeq FROM final_productosimagenes WHERE Idproducto=?'))){
 		ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
 	}
 	if (!$sentencia->bind_param("i",$id)) {
@@ -67,7 +148,7 @@ function mbuscar($busqueda){
 		$busqueda="%".$busqueda."%";
     //Preparamos la consulta
 		$i=0;
-    if (!($sentencia = $mysqli->prepare("SELECT p.idProducto,p.nombre,p.precio, pi.Imagen FROM producto p, productosimagenes pi
+    if (!($sentencia = $mysqli->prepare("SELECT p.idProducto,p.nombre,p.precio, pi.Imagen FROM final_producto p, final_productosimagenes pi
 											WHERE p.idProducto=pi.idProducto AND (p.nombre LIKE ? OR p.descripcion LIKE ?) AND pi.principal=1 "))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
@@ -107,7 +188,7 @@ function mmostrarproducto(){
       die("Conexion fallida:" .$mysqli->connect_error.".\n");
     }
     //Preparamos la consulta
-    if (!($sentencia = $mysqli->prepare('Select p.IdProducto,p.Nombre,p.Precio,p.Descripcion,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.IdProducto=? and pi.Idproducto=p.idProducto limit 0,1'))){
+    if (!($sentencia = $mysqli->prepare('Select p.IdProducto,p.Nombre,p.Precio,p.Descripcion,p.Stock,pi.Imagen FROM final_producto p, final_productosimagenes pi WHERE p.IdProducto=? and pi.Idproducto=p.idProducto limit 0,1'))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
     if (!$sentencia->bind_param("i",$id)) {
@@ -139,7 +220,7 @@ function mmostrarreviewsproducto(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre,apellido1,apellido2 FROM reviews R, usuarios U WHERE IdProducto=? AND R.IdUsuario=U.IdUsuario "))){
+  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre,apellido1,apellido2 FROM final_reviews R, final_usuarios U WHERE IdProducto=? AND R.IdUsuario=U.IdUsuario "))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->bind_param("i",$id)) {
@@ -178,7 +259,7 @@ function mmostrarreviewsadmin(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT u.Nombre,Valoracion,Comentario,Imagen,P.Nombre FROM reviews R, producto P,usuarios u WHERE R.IdProducto=P.IdProducto and r.idUsuario=u.idUsuario ORDER BY R.Fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT u.Nombre,Valoracion,Comentario,Imagen,P.Nombre FROM final_reviews R, final_producto P,final_usuarios u WHERE R.IdProducto=P.IdProducto and r.idUsuario=u.idUsuario ORDER BY R.Fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->execute()) {
@@ -213,7 +294,7 @@ function mmostrarreviewsusuario($id){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre FROM reviews R, producto P WHERE IdUsuario=? AND R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre FROM final_reviews R, final_producto P WHERE IdUsuario=? AND R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->bind_param("i",$id)) {
@@ -250,7 +331,7 @@ function mmostrarpedidoadmin(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT u.Nombre, estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr, usuarios u WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND u.idUsuario=p.idUsuario GROUP BY fecha,estado,p.idPedido,u.Nombre	 ORDER BY fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT u.Nombre, estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM final_pedido p,final_productospedidos r,final_producto pr, final_usuarios u WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND u.idUsuario=p.idUsuario GROUP BY fecha,estado,p.idPedido,u.Nombre	 ORDER BY fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->execute()) {
@@ -287,7 +368,7 @@ function mmostrarpedidosusuario($id){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND p.idUsuario=? GROUP BY fecha,estado,p.idPedido ORDER BY fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM final_pedido p,final_productospedidos r,final_producto pr WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND p.idUsuario=? GROUP BY fecha,estado,p.idPedido ORDER BY fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   };
   if (!$sentencia->bind_param("i",$id)) {
@@ -330,7 +411,7 @@ function mmostrarpedido(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-	if (!($sentencia = $mysqli->prepare("SELECT p.idProducto, p.Nombre,p.Descripcion,p.Precio,p.Stock,pi.Imagen FROM producto p, productosimagenes pi WHERE p.idProducto=? and p.idProducto=pi.idProducto limit 0,1"))){
+	if (!($sentencia = $mysqli->prepare("SELECT p.idProducto, p.Nombre,p.Descripcion,p.Precio,p.Stock,pi.Imagen FROM final_producto p, final_productosimagenes pi WHERE p.idProducto=? and p.idProducto=pi.idProducto limit 0,1"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -364,7 +445,7 @@ function mgetUsuario($email){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT idUsuario FROM usuarios WHERE email=?"))){
+  if (!($sentencia = $mysqli->prepare("SELECT idUsuario FROM final_usuarios WHERE email=?"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -392,7 +473,7 @@ function mestalogin($id,$contrasena){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT count(idUsuario) FROM usuarios WHERE idUsuario=? and password=?"))){
+  if (!($sentencia = $mysqli->prepare("SELECT count(idUsuario) FROM final_usuarios WHERE idUsuario=? and password=?"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -422,7 +503,7 @@ function mpedidopertenece($idPedido,$idUsuario){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT count(idPedido) FROM pedido WHERE idPedido=? and idUsuario=?"))){
+  if (!($sentencia = $mysqli->prepare("SELECT count(idPedido) FROM final_pedido WHERE idPedido=? and idUsuario=?"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -452,7 +533,7 @@ function mmostrarproductospedidoid($id){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT p.Nombre,p.Descripcion,p.Precio FROM producto p, productospedidos pe WHERE p.idProducto=pe.idProducto and pe.idPedido=?"))){
+  if (!($sentencia = $mysqli->prepare("SELECT p.Nombre,p.Descripcion,p.Precio FROM final_producto p, final_productospedidos pe WHERE p.idProducto=pe.idProducto and pe.idPedido=?"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -475,7 +556,7 @@ function mmostrarproductospedidoid($id){
       $i=$i+1;
   }
   //Ahora sacamos la info del pedido
-  if (!($sentencia1 = $mysqli->prepare("SELECT fecha,estado FROM pedido WHERE idPedido=?"))){
+  if (!($sentencia1 = $mysqli->prepare("SELECT fecha,estado FROM final_pedido WHERE idPedido=?"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   //Preparamos la consulta
@@ -503,7 +584,7 @@ function mmostrarproductospedidoid($id){
 		if(!$mysqli){
             die("Conexion fallida:" .mysqli_connect_error);
 		}
-		$resultado = mysqli_query($mysqli, "select p.nombre,p.precio,p.idProducto, pi.Imagen from producto p, productosimagenes pi where p.idProducto=pi.idProducto and principal=1");
+		$resultado = mysqli_query($mysqli, "select p.nombre,p.precio,p.idProducto, pi.Imagen from final_producto p, final_productosimagenes pi where p.idProducto=pi.idProducto and principal=1");
         	if (!$resultado) {
             	echo "Error de BD, no se pudo consultar la base de datos\n";
 
@@ -513,36 +594,6 @@ function mmostrarproductospedidoid($id){
 		return $resultado;
 
 	}
-	/*function mobtenerdatos($email){
-		$servidor="127.0.0.1";
-		$usuario="siw06";
-		$password="asahwaeche";
-		$dbname="db_siw06";
-		$mysqli = mysqli_connect($servidor,$usuario,$password,$dbname);
-
-		if(!$mysqli){
-			die("Conexion fallida:" .mysqli_connect_error);
-		}
-		if (!($sentencia = $mysqli->prepare("SELECT Nombre,apellido1,apellido2,email,password,direccion,CP,sexo,Comunidad,Provincia,Municipio from usuarios WHERE email=?"))){
-			ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
-		}
-		//Preparamos la consulta
-		if (!$sentencia->bind_param("s",$email)) {
-			echo "Falló la vinculación de parámetros: (" . $sentencia->errno . ") " . $sentencia->error;
-		}
-		if(!$sentencia->bind_result($formulario["id"],$formulario["nombre"],$formulario["apellido1"],$formulario["apellido2"],
-		$formulario["email"],$formulario["contrasena"],$formulario["direccion"],$formulario["codpos"],$formulario["sexo"],$formulario["comunidad"],
-		$formulario["provincia"],$formulario["poblacion"])){
-			echo "Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
-		}
-		if (!$sentencia->execute()) {
-			echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
-		}
-	    $sentencia->fetch();
-		mysqli_close($mysqli);
-		return $formulario;
-
-	}*/
 	function mcomprobarregistro($formulario){
     //$email,$contrasena,$contrasena1,$nombre,$apellido1,$apellido2,$sexo,$comunidad,$provincia,$poblacion,$direccion,$codpos){
     foreach($formulario as $campo){
@@ -558,7 +609,7 @@ function mmostrarproductospedidoid($id){
     if(!$mysqli){
       die("Conexion fallida:" .mysqli_connect_error);
 		}
-    if (!($sentencia = $mysqli->prepare("SELECT idUsuario FROM usuarios WHERE email=?"))){
+    if (!($sentencia = $mysqli->prepare("SELECT idUsuario FROM final_usuarios WHERE final_email=?"))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
     //Preparamos la consulta
@@ -614,7 +665,7 @@ function mmostrarproductospedidoid($id){
     if(!$mysqli){
       die("Conexion fallida:" .mysqli_connect_error);
 		}
-    if (!($sentencia = $mysqli->prepare("SELECT count(email) from usuarios WHERE email=? and password=?"))){
+    if (!($sentencia = $mysqli->prepare("SELECT count(email) from final_usuarios WHERE email=? and password=?"))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
     //Preparamos la consulta
@@ -640,7 +691,7 @@ function mmostrarproductospedidoid($id){
     if(!$mysqli){
       die("Conexion fallida:" .mysqli_connect_error);
     }
-    if (!($sentencia = $mysqli->prepare("SELECT idUsuario,Nombre,apellido1,apellido2,email,password,direccion,CP,sexo,Comunidad,Provincia,Municipio from usuarios WHERE idUsuario=?"))){
+    if (!($sentencia = $mysqli->prepare("SELECT idUsuario,Nombre,apellido1,apellido2,email,password,direccion,CP,sexo,Comunidad,Provincia,Municipio from final_usuarios WHERE idUsuario=?"))){
       ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
     }
     //Preparamos la consulta
@@ -732,7 +783,7 @@ function mmostrarproductospedidoid($id){
 
 			//Preparamos la consulta
 
-			if (!($sentencia = $mysqli->prepare('SELECT principal FROM producto natural join productosimagenes WHERE Nombre=? and Precio=? and Descripcion=? and Stock=?'))){
+			if (!($sentencia = $mysqli->prepare('SELECT principal FROM final_producto natural join final_productosimagenes WHERE Nombre=? and Precio=? and Descripcion=? and Stock=?'))){
 				ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
 			}
 			if (!$sentencia->bind_param("sdsi",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"])) {
@@ -764,7 +815,7 @@ function mmostrarproductospedidoid($id){
                 }
 
 
-				if (!($sentencia = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal)VALUES ((select IdProducto from producto where nombre=? and precio=? and descripcion=? and stock=?),?,?,?,0)'))){
+				if (!($sentencia = $mysqli->prepare('INSERT INTO productosimagenes (IdProducto,Imagen,ImagenMed,ImagenPeq,principal)VALUES ((select IdProducto from final_producto where nombre=? and precio=? and descripcion=? and stock=?),?,?,?,0)'))){
 					ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
 				}
 				if (!$sentencia->bind_param("sdsisss",$formulario["nombre"],$formulario["precio"],$formulario["descripcion"],$formulario["stock"],$imgr,$imm,$imp)) {
@@ -799,7 +850,7 @@ function mmostrarproductospedidoid($id){
 			if(!$mysqli){
 				die("Conexion fallida:" .mysqli_connect_error);
 			}
-			if (!($sentencia = $mysqli->prepare("SELECT Admin from usuarios WHERE idUsuario=?"))){
+			if (!($sentencia = $mysqli->prepare("SELECT Admin from final_usuarios WHERE idUsuario=?"))){
 				ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
 			}
 			//Preparamos la consulta

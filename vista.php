@@ -1,4 +1,9 @@
 <?php
+function vtoPaypal($precio){
+  $cadena= file_get_contents("topaypal.html");
+  $cadena = str_replace("##valor##",$precio,$cadena);
+  echo $cadena;
+}
 function vpedirimagen($formulario){
     $cadena = file_get_contents("dropzone.html");
     $cadena = cabecera($cadena);
@@ -8,7 +13,6 @@ function vpedirimagen($formulario){
     $cadena = str_replace("##precio##", $formulario["precio"], $cadena);
     $cadena = str_replace("##descripcion##", $formulario["descripcion"], $cadena);
     $cadena = str_replace("##stock##", $formulario["stock"], $cadena);
-
     echo $cadena;
 }
 function vanadirproducto(){
@@ -145,10 +149,13 @@ function vmostrarproducto($listadoproducto,$listadoreviews){
       $aux = str_replace("##imagenCom##", $datos["Imagen"], $aux);
       $comentarios .= $aux;
     }
-  //}
-  //Imprimimos el html
   $cadena = $trozoscomentarios[0] . $comentarios . $trozoscomentarios[2];
-  $cadena=str_replace("##addCarrito##", "<a href=controlador.php?accion=addCarrito&id=" .$listadoproducto["IdProducto"]  ."> <img src=\"imagenes/carroTxiki\" ></a>", $cadena);
+  if($listadoproducto["Stock"]>0){
+    $cadena=str_replace("##addCarrito##", "<a href=controlador.php?accion=addCarrito&id=" .$listadoproducto["IdProducto"]  ."> <img src=\"imagenes/carroTxiki\" ></a>", $cadena);
+  }
+  else{
+    $cadena=str_replace("##addCarrito##","", $cadena);
+  }
   echo $cadena;
 }
 
@@ -267,6 +274,7 @@ function vmostrarpedido($listadoproductos){
         $aux = str_replace("##imagen##", $producto["Imagen"],$aux);
         $aux = str_replace("##cantidad##", $producto["Cantidad"],$aux);
         $aux = str_replace("##id##", $producto["idProducto"],$aux);
+        $aux = str_replace("##stock##", $producto["Stock"],$aux);
         $precio=$precio+$producto["Precio"];
         $productos .= $aux;
         $cantidadTotal+=$producto["Cantidad"];
@@ -280,7 +288,6 @@ function vmostrarpedido($listadoproductos){
   }
   $cadena=$trozosproductos[0] . $productos  . $trozosproductos[2];
   $cadena=str_replace("##precioTotal##",$precio."&#8364",$cadena);
-  $cadena=str_replace("##pagarAhora##",vpagarpaypal($precio),$cadena);
 
   echo $cadena;
 }
@@ -299,14 +306,6 @@ function vpedidotoPDF($listadoproductos){
       $pdf->insertaTotal($articulos,$precioTotal);
     }
   $pdf->Output();
-}
-function vpagarpaypal($precio){
-  $cadena =file_get_contents("paypal.html");
-  $cadena = str_replace("##valor##",$precio,$cadena);
-  if(isset($_COOKIE["Carrito"])) {
-      $cadena=str_replace("##pedido##",$_COOKIE["Carrito"],$cadena);
-  }
-  return $cadena;
 }
 
   function vmostrarlistadoproductos($consulta){
