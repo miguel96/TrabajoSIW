@@ -1,6 +1,6 @@
 <?php
 
-	$servidor ="dbserver";
+	$servidor ="127.0.0.1";
 	$usuario="siw06";
 	$password="asahwaeche";
 	$dbname="db_siw06";
