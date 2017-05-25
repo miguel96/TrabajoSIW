@@ -42,13 +42,15 @@ body
     z-index: 20;
     top: 0;
     left: 0;
+
     visibility: hidden;
+    overflow: auto;
 
     width: 100%;
     height: auto;
 
     text-align: center;
-  overflow: auto;
+
     opacity: 1;
 }
 .imagenGrande .cerrar
@@ -65,13 +67,15 @@ body
 
     opacity: 1;
 }
-.flecha_cant{
-  width:50px;
-  margin:0 auto;
+.flecha_cant
+{
+    width: 50px;
+    margin: 0 auto;
 }
-.flecha{
-  width: 100px;
-  margin:20px;
+.flecha
+{
+    width: 100px;
+    margin: 20px;
 }
 .imagenGrande img
 {
@@ -157,8 +161,10 @@ body
 {
     display: inline-block;
 
+    width: 100%;
+
     text-align: center;
-    width:100%;
+
     opacity: .95;
     background-color: white;
 }
@@ -248,25 +254,26 @@ body
     float: right;
 
     width: 20%;
-    margin:5px;
+    margin: 5px;
 
     text-align: center;
 
     align-content: center;
 }
-#formularioregistro textarea{
-  resize: none;
-
+#formularioregistro textarea
+{
+    resize: none;
 }
 .botonComentario a
 {
     display: block;
-    border-radius: 10px;
+
     padding: .3em;
 
     text-decoration: none;
 
     color: white;
+    border-radius: 10px;
     background: #e6e6e6;
 }
 
@@ -304,7 +311,14 @@ ul.menu
     border: 1px solid #7c7c7c;
     background: #f4f4f4;
 }
-
+#formularioregistro a
+{
+    text-decoration: none;
+}
+#formularioregistro a:visited
+{
+    color: blue;
+}
 ul.menu li
 {
     float: left;
@@ -451,23 +465,25 @@ th
 
     background-color: lightblue;
 }
-#formularioregistro .numeroForm{
-  width:30px;
-  -webkit-transition: width .5s;
-          transition: width .5s;
-  background-color: lightblue;
-  border-radius: 10px;
+#formularioregistro .numeroForm
+{
+    width: 30px;
 
+    -webkit-transition: width .5s;
+            transition: width .5s;
+
+    border-radius: 10px;
+    background-color: lightblue;
 }
 #formularioregistro .textoLargo
 {
     width: auto;
 
-        -webkit-transition: width .5s;
-                transition: width .5s;
+    -webkit-transition: width .5s;
+            transition: width .5s;
 
-        background-color: lightblue;
-        border-radius: 10px;
+    border-radius: 10px;
+    background-color: lightblue;
 }
 #formulariologin .logintexto:focus,
 #formularioregistro .registrotexto
@@ -546,10 +562,12 @@ MEDIA QUERIES
     .imagenGrande img
     {
         display: inline-block;
-        margin-left: 25%;
+
         width: 50%;
-        align-self: center;
         margin-top: 50px;
+        margin-left: 25%;
+
+        align-self: center;
     }
     #nombreprecio
     {
@@ -569,19 +587,22 @@ MEDIA QUERIES
 /* para 700px o menos */
 @media screen and (max-width: 700px)
 {
-  body{
-    padding: 0;
-  }
-    .cuerpoPagina{
-      padding: 0;
-      margin:0;
+    body
+    {
+        padding: 0;
+    }
+    .cuerpoPagina
+    {
+        margin: 0;
+        padding: 0;
     }
     .footer .lista
     {
         clear: both;
     }
-    table{
-      width:100%;
+    table
+    {
+        width: 100%;
     }
     .principal_galeria li
     {
