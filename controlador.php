@@ -51,7 +51,7 @@
 		if(!filter_var($user,FILTER_VALIDATE_INT)===false){
 			$password=filter_var($_SESSION["Contrasena"],FILTER_SANITIZE_STRING);
 			if(mestalogin($user,$password) and misadmin($user)){
-				vmostrarmisvaloraciones(mmostrarreviewsadmin());
+				vmostrarmisvaloracionesadmin(mmostrarreviewsadmin());
 			}
 			else if(mestalogin($user,$password))
 				vmostrarmisvaloraciones(mmostrarreviewsusuario($user));
@@ -72,7 +72,7 @@
 
 				if(mestalogin($user,$password)){
 					if (misadmin($user))
-						vmostrarmispedidos(mmostrarpedidoadmin());
+						vmostrarmispedidosadmin(mmostrarpedidoadmin());
 					else
 					vmostrarmispedidos(mmostrarpedidosusuario($user));
 				}

@@ -2,9 +2,8 @@
 function vpedirimagen($formulario){
     $cadena = file_get_contents("dropzone.html");
     $cadena = cabecera($cadena);
-	$cadena = footer($cadena);
+	  $cadena = footer($cadena);
     $cadena = str_replace("##titulo##", "Rufocube-  Anadir Producto", $cadena);
-
     $cadena = str_replace("##nombre##", $formulario["nombre"], $cadena);
     $cadena = str_replace("##precio##", $formulario["precio"], $cadena);
     $cadena = str_replace("##descripcion##", $formulario["descripcion"], $cadena);
@@ -64,7 +63,7 @@ function vmostrarcuenta($formulario,$error = ""){
 	$cadena = str_replace("##sexo##",$formulario['sexo'], $cadena);
 	$cadena = str_replace("##direccion##",$formulario['direccion'], $cadena);
 	$cadena = str_replace("##codpos##",$formulario['codpos'], $cadena);
-	
+
 	echo $cadena;
 }
 function vmostrarcomentario($id){
@@ -171,6 +170,25 @@ function vmostrarmisvaloraciones($listadoreviews){
     }
   echo $trozoscomentarios[0] . $comentarios  . $trozoscomentarios[2];
 }
+function vmostrarmisvaloracionesadmin($listadoreviews){
+  $cadena = file_get_contents("misvaloracionesadmin.html");
+  $cadena = cabecera($cadena);
+  $cadena = str_replace("##titulo##", "Rufocube-Listado de valoraciones", $cadena);
+  //Bucle para montar los comentarios
+  $comentarios="";
+  $trozoscomentarios = explode("##comentario##", $cadena);
+  if($listadoreviews!="")
+    foreach($listadoreviews as $datos){
+      $aux = $trozoscomentarios[1];
+      $aux = str_replace("##nombreUsuario##", $datos["nombreUsuario"], $aux);
+      $aux = str_replace("##nombreProducto##", $datos["Nombre"], $aux);
+      $aux = str_replace("##texto##", $datos["Comentario"], $aux);
+      $aux = str_replace("##valoracion##", $datos["Valoracion"], $aux);
+      $aux = str_replace("##imagen##", $datos["Imagen"], $aux);
+      $comentarios .= $aux;
+    }
+  echo $trozoscomentarios[0] . $comentarios  . $trozoscomentarios[2];
+}
 
 function vmostrarmispedidos($listadopedidos){
   $cadena = file_get_contents("mispedidos.html");
@@ -183,6 +201,36 @@ function vmostrarmispedidos($listadopedidos){
   if($listadopedidos!="")
     foreach($listadopedidos as $datos){
       $aux = $trozospedidos[1];
+      $aux = str_replace("##fecha##", $datos["fecha"], $aux);
+      $aux = str_replace("##precio##", round($datos["precio"],2), $aux);
+      $aux = str_replace("##mas##","<a href='controlador.php?accion=pedidoapdf&id=".$datos["idPedido"]."'>Exportar</a>",$aux);
+      switch ($datos["estado"]) {
+        case 1:
+          $aux = str_replace("##estado##", "Procesado", $aux);
+          break;
+        case 2:
+          $aux= str_replace("##estado##", "Enviado", $aux);
+        default:
+            $aux= str_replace("##estado##", "Error", $aux);
+          break;
+      }
+      $pedidos .= $aux;
+    }
+  echo $trozospedidos[0] . $pedidos  . $trozospedidos[2];
+}
+
+function vmostrarmispedidosadmin($listadopedidos){
+  $cadena = file_get_contents("mispedidosadmin.html");
+  $cadena = cabecera($cadena);
+  $cadena = str_replace("##titulo##", "Rufocube-Listado de pedidos", $cadena);
+  //Bucle para montar los comentarios
+  $pedidos="";
+  $trozospedidos = explode("##pedido##", $cadena);
+  $pedidos="";
+  if($listadopedidos!="")
+    foreach($listadopedidos as $datos){
+      $aux = $trozospedidos[1];
+      $aux = str_replace("##nombre##",$datos["nombre"],$aux);
       $aux = str_replace("##fecha##", $datos["fecha"], $aux);
       $aux = str_replace("##precio##", round($datos["precio"],2), $aux);
       $aux = str_replace("##mas##","<a href='controlador.php?accion=pedidoapdf&id=".$datos["idPedido"]."'>Exportar</a>",$aux);
@@ -255,6 +303,9 @@ function vpedidotoPDF($listadoproductos){
 function vpagarpaypal($precio){
   $cadena =file_get_contents("paypal.html");
   $cadena = str_replace("##valor##",$precio,$cadena);
+  if(isset($_COOKIE["Carrito"])) {
+      $cadena=str_replace("##pedido##",$_COOKIE["Carrito"],$cadena);
+  }
   return $cadena;
 }
 
@@ -262,21 +313,7 @@ function vpagarpaypal($precio){
 		$cadena = file_get_contents("principal.html");
 		$cadena = str_replace("##Titulo##","Rufocube",$cadena);
 		$cadena = cabecera($cadena);
-		/**$trozos = explode("##productos##", $cadena);
-		$cuerpo = "";
-		/while($fila = mysqli_fetch_assoc($consulta)){
-			$aux = $trozos[1];
-      $nombre = $fila['nombre'];
-      $precio = $fila['precio'];
-      $idProducto=$fila['idProducto'];
-      $imagen=$fila['Imagen'];
-      $aux = str_replace("##linkProducto##","controlador.php?accion=producto&id=".$idProducto,$aux);
-			$aux = str_replace("##foto##", "$imagen", $aux);
-			$aux = str_replace("##nombre##", "$nombre", $aux);
-			$aux = str_replace("##precio##", "$precio &#8364", $aux);
-			$cuerpo .= $aux;
-		}*/
-	echo $cadena;
+	  echo $cadena;
 	}
 
 	function vmostrarlogin(){

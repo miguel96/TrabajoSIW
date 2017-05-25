@@ -178,18 +178,19 @@ function mmostrarreviewsadmin(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT Valoracion,Comentario,Imagen,Nombre FROM reviews R, producto P WHERE R.IdProducto=P.IdProducto ORDER BY R.Fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT u.Nombre,Valoracion,Comentario,Imagen,P.Nombre FROM reviews R, producto P,usuarios u WHERE R.IdProducto=P.IdProducto and r.idUsuario=u.idUsuario ORDER BY R.Fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->execute()) {
   echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
   }
-  if(!$sentencia->bind_result($resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"])){
+  if(!$sentencia->bind_result($resultado["nombreUsuario"],$resultado["Valoracion"],$resultado["Comentario"],$resultado["Imagen"],$resultado["Nombre"])){
     echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
   }
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
+		$resultados[$i]["nombreUsuario"]=$resultado["nombreUsuario"];
 		$resultados[$i]["Valoracion"]=$resultado["Valoracion"];
 		$resultados[$i]["Comentario"]=$resultado["Comentario"];
 		$resultados[$i]["Imagen"]=$resultado["Imagen"];
@@ -249,19 +250,20 @@ function mmostrarpedidoadmin(){
   if($mysqli->connect_errno){
     die("Conexion fallida:" .$mysqli->connect_error.".\n");
   }
-  if (!($sentencia = $mysqli->prepare("SELECT estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto GROUP BY fecha,estado,p.idPedido ORDER BY fecha"))){
+  if (!($sentencia = $mysqli->prepare("SELECT u.Nombre, estado,fecha,SUM(pr.Precio) precio ,p.idPedido FROM pedido p,productospedidos r,producto pr, usuarios u WHERE p.idPedido=r.idPedido AND pr.idProducto=r.idProducto AND u.idUsuario=p.idUsuario GROUP BY fecha,estado,p.idPedido,u.Nombre	 ORDER BY fecha"))){
     ECHO "Falló la preparación: (" . $mysqli->errno . ") " . $mysqli->error;
   }
   if (!$sentencia->execute()) {
   echo "Falló la ejecución: (" . $sentencia->errno . ") " . $sentencia->error;
   }
-  if(!$sentencia->bind_result($resultado["estado"],$resultado["fecha"],$resultado["precio"],$resultado["idPedido"])){
+  if(!$sentencia->bind_result($resultado["nombre"],$resultado["estado"],$resultado["fecha"],$resultado["precio"],$resultado["idPedido"])){
     echo"Fallo el resultado: (" . $sentencia->errno . ") " . $sentencia->error;
   }
   $i=0;
   $resultados="";
   while($sentencia->fetch()){
       //Si copiamos el array de golpe se pasa por referencia
+			$resultados[$i]["nombre"]=$resultado["nombre"];
 			$resultados[$i]["estado"]=$resultado["estado"];
 			$resultados[$i]["fecha"]=$resultado["fecha"];
 			$resultados[$i]["precio"]=$resultado["precio"];
