@@ -11,7 +11,7 @@
 		echo -1;
 	} else {
 		$resultados=array(array(),array());
-		$consulta = "select * from comunidades order by comunidad";
+		$consulta = "select * from final_comunidades order by comunidad";
 		$i=0;
 		if ($resultado = $con->query($consulta)) {
 			while ($datos = $resultado->fetch_assoc()) {

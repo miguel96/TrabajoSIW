@@ -13,7 +13,7 @@ header("Content-Type: text/html; charset=iso-8859-1");
 	} else {
 		$resultados=array(array());
 		$comunidad_id = $_GET["idcomunidad"];
-		$consulta = "select * from provincias where comunidad_id = $comunidad_id order by provincia";
+		$consulta = "select * from final_provincias where comunidad_id = $comunidad_id order by provincia";
 		$i=0;
 		if ($resultado = $con->query($consulta)) {
 			while ($datos = $resultado->fetch_assoc()) {

@@ -14,7 +14,7 @@ header("Content-Type: text/html; charset=iso-8859-1");
 	} else {
 		$idprovincia = $_GET["idprovincia"];
 		$resultados=array(array());
-		$consulta = "select * from municipios where provincia_id = $idprovincia order by municipio";
+		$consulta = "select * from final_municipios where provincia_id = $idprovincia order by municipio";
 		$i=0;
 		if ($resultado = $con->query($consulta)) {
 			while ($datos = $resultado->fetch_assoc()) {
